@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-app
+  namespace: week1
+  labels:
+    run: web-app
+spec:
+  restartPolicy: Never
+  containers:
+    - name: web-app
+      image: nginx:1.25-DoNotExist
