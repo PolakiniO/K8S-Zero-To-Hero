@@ -29,6 +29,24 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 ### Source materials
 - Notion export: `K8S-Lab-Week1/ExportBlock-.../Lab 1 - Pod creation + image failure ...md`
 
+### Walkthrough (example + tips)
+**Example flow**
+```bash
+kubectl run web-app --image=nginx:1.25 --restart=Never
+kubectl delete pod web-app --ignore-not-found
+kubectl run web-app --image=nginx:1.25-DoNotExist --restart=Never
+kubectl describe pod web-app
+kubectl set image pod/web-app web-app=nginx:1.25
+```
+
+**What to look for**
+- In `describe`, confirm `ErrImagePull` / `ImagePullBackOff` and the exact image reference that failed.
+- In `events`, sort by timestamp to see the failure timeline instead of guessing.
+
+**Tips**
+- Always diagnose from events first; fix only after you can state the exact failing image/tag.
+- `kubectl set image` is faster than recreating a pod when you only need to correct the image.
+
 ---
 
 ## Lab 2 — Namespaces + RBAC Failure
@@ -47,6 +65,25 @@ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
 
 ### Manifest
 - `K8S-Lab-Week1/yaml-files/lab2-rbac-fix.yaml`
+
+### Walkthrough (example + tips)
+**Example flow**
+```bash
+kubectl create ns development
+kubectl -n development create sa dev-sa
+kubectl auth can-i get pods --as=system:serviceaccount:development:dev-sa -n development
+kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab2-rbac-fix.yaml
+kubectl auth can-i list pods --as=system:serviceaccount:development:dev-sa -n development
+```
+
+**What to look for**
+- `can-i` should move from `no` to `yes` after RoleBinding is applied.
+- Forbidden errors should include the exact user + verb + resource; use that tuple to write RBAC rules.
+
+**Tips**
+- Run `kubectl auth can-i` before and after RBAC changes as a quick preflight.
+- Scope roles narrowly (`get/list/watch` on `pods`) before adding broader access.
 
 ---
 
@@ -70,6 +107,25 @@ kubectl top pod memhog
 
 > Note: `kubectl top` requires Metrics Server.
 
+### Walkthrough (example + tips)
+**Example flow**
+```bash
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab3-memhog.yaml
+kubectl get pod memhog -w
+kubectl describe pod memhog
+kubectl delete pod memhog
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab3-memhog-fix.yaml
+kubectl get pod memhog
+```
+
+**What to look for**
+- `describe` should show `Last State: Terminated`, `Reason: OOMKilled`, and exit code `137`.
+- If metrics are available, memory should climb toward the limit before restarts.
+
+**Tips**
+- Requests affect scheduling; limits are enforcement caps. Tune both, not just one.
+- If `kubectl top` is unavailable, rely on `describe` + restart patterns to confirm OOM behavior.
+
 ---
 
 ## Lab 4 — Liveness + Readiness Probes
@@ -92,6 +148,25 @@ kubectl get endpoints probe-svc -w
 - `K8S-Lab-Week1/yaml-files/lab4-fix-liveness-probe.yaml`
 - `K8S-Lab-Week1/yaml-files/lab4-readiness-service.yaml`
 
+### Walkthrough (example + tips)
+**Example flow**
+```bash
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab4-broken-liveness-probe.yaml
+kubectl describe pod probe-demo
+kubectl delete pod probe-demo
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab4-fix-liveness-probe.yaml
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab4-readiness-service.yaml
+kubectl get endpoints probe-svc -w
+```
+
+**What to look for**
+- Broken liveness: restart count rises; events show liveness failures and container kills.
+- Broken readiness: pod stays `Running` but `READY` becomes `0/1`; service endpoints become empty.
+
+**Tips**
+- Pods cannot patch most probe fields in-place; recreate pod (or use Deployments in real workloads).
+- Liveness answers "should I restart?"; readiness answers "should I receive traffic?".
+
 ---
 
 ## Lab 5 — ConfigMap and Secret Failures
@@ -112,6 +187,28 @@ kubectl logs cfg-demo
 - `K8S-Lab-Week1/yaml-files/lab5-configmap-env-vars.yaml`
 - `K8S-Lab-Week1/yaml-files/lab5-configmap-broken-env-vars.yaml`
 - `K8S-Lab-Week1/yaml-files/lab5-configmap-fix-env-vars.yaml`
+
+### Walkthrough (example + tips)
+**Example flow**
+```bash
+kubectl create configmap app-cm --from-literal=APP_MODE=dev
+kubectl create secret generic app-secret --from-literal=API_KEY=supersecret
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab5-configmap-env-vars.yaml
+kubectl logs cfg-demo
+kubectl delete pod cfg-demo
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab5-configmap-broken-env-vars.yaml
+kubectl describe pod cfg-demo
+kubectl delete pod cfg-demo
+kubectl apply -f K8S-Lab-Week1/yaml-files/lab5-configmap-fix-env-vars.yaml
+```
+
+**What to look for**
+- Broken secret reference should produce `CreateContainerConfigError` before the app starts.
+- `describe` events usually identify the exact missing secret/configmap key or name.
+
+**Tips**
+- Validate object names (`kubectl get cm,secret`) before applying pod specs.
+- Keep the healthy and broken manifests side-by-side to speed up root-cause comparison.
 
 ---
 
