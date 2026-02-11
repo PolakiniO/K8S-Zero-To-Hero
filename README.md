@@ -57,7 +57,7 @@ Use these to speak clearly about real incidents:
 │   └── templates/
 ├── K8S-Lab-Week1/
 │   └── ExportBlock-.../
-├── k8s/
+├── LabPack/
 │   └── week1/
 └── scripts/
     └── verify-markdown-links.sh
