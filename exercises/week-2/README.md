@@ -1,35 +1,34 @@
 # Week 2 Labs: Networking + Deployment Incidents
 
-> Objective: Diagnose service exposure, traffic flow, and rollout failures.
+> Objective: Diagnose service exposure, traffic flow, policy enforcement, storage behavior, and rollout failures.
 
 ## Lab 6 — Label/Selector Mismatch
-- Deploy pods with `app=api`.
-- Create service selecting `app=backend` (intentional mismatch).
-- Observe empty endpoints and failed requests.
-- Correct labels/selectors.
+- Incident: Service exists but has `<none>` endpoints because selector does not match pod labels.
+- Interview phrase: "Service selector mismatch caused routing failure."
+- Guide: [LabPack/week2/lab6/README.md](LabPack/week2/lab6/README.md)
 
 ## Lab 7 — Rolling Update Failure + Rollback
-- Create deployment with healthy image.
-- Update image to broken version.
-- Track rollout failure.
-- Perform rollback and validate recovery.
+- Incident: New ReplicaSet cannot pull updated image, rollout stalls while old replicas stay healthy.
+- Interview phrase: "I inspected rollout status and isolated failing replicas."
+- Guide: [LabPack/week2/lab7/README.md](LabPack/week2/lab7/README.md)
 
 ## Lab 8 — Storage Provisioning Failure
-- Create PVC with invalid StorageClass.
-- Observe pending claim and unschedulable pod.
-- Fix class and bind successfully.
+- Incident: PVC stays Pending until consumer/provisioning path resolves.
+- Interview phrase: "Pod was blocked by volume provisioning."
+- Guide: [LabPack/week2/lab8/README.md](LabPack/week2/lab8/README.md)
 
 ## Lab 9 — NetworkPolicy Deny Scenario
-- Apply restrictive policy that blocks pod-to-pod traffic.
-- Test connectivity failure.
-- Open minimal ingress/egress required.
+- Incident: deny policy initially did not block traffic until cluster was recreated with Calico NP enforcement.
+- Interview phrase: "Network policy prevented east-west communication."
+- Guide: [LabPack/week2/lab9/README.md](LabPack/week2/lab9/README.md)
 
 ## Lab 10 — Full Incident Simulation
-- Keep pod status `Running` while application path fails.
-- Diagnose using logs, exec, events, service endpoints.
-- Produce an incident report in markdown.
+- Incident: Pod stayed Running while app failed due to missing/misformatted ConfigMap mount.
+- Interview phrase: "I treated it as an incident investigation."
+- Guide: [LabPack/week2/lab10/README.md](LabPack/week2/lab10/README.md)
 
 ## Validation Commands
+
 ```bash
 kubectl get svc,endpoints -n <ns>
 kubectl rollout status deployment/<name> -n <ns>

@@ -58,7 +58,8 @@ Use these to speak clearly about real incidents:
 ├── K8S-Lab-Week1/
 │   └── ExportBlock-.../
 ├── LabPack/
-│   └── week1/
+│   ├── week1/
+│   └── week2/
 └── scripts/
     └── verify-markdown-links.sh
 ```
