@@ -64,7 +64,7 @@ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
 ```
 
 ### Manifest
-- `K8S-Lab-Week1/yaml-files/lab2-rbac-fix.yaml`
+- `k8s/week1/lab2/lab2-rbac-fix.yaml`
 
 ### Walkthrough (example + tips)
 **Example flow**
@@ -73,7 +73,7 @@ kubectl create ns development
 kubectl -n development create sa dev-sa
 kubectl auth can-i get pods --as=system:serviceaccount:development:dev-sa -n development
 kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab2-rbac-fix.yaml
+kubectl apply -f k8s/week1/lab2/lab2-rbac-fix.yaml
 kubectl auth can-i list pods --as=system:serviceaccount:development:dev-sa -n development
 ```
 
@@ -102,19 +102,19 @@ kubectl top pod memhog
 ```
 
 ### Manifests
-- `K8S-Lab-Week1/yaml-files/lab3-memhog.yaml`
-- `K8S-Lab-Week1/yaml-files/lab3-memhog-fix.yaml`
+- `k8s/week1/lab3/lab3-memhog.yaml`
+- `k8s/week1/lab3/lab3-memhog-fix.yaml`
 
 > Note: `kubectl top` requires Metrics Server.
 
 ### Walkthrough (example + tips)
 **Example flow**
 ```bash
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab3-memhog.yaml
+kubectl apply -f k8s/week1/lab3/lab3-memhog.yaml
 kubectl get pod memhog -w
 kubectl describe pod memhog
 kubectl delete pod memhog
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab3-memhog-fix.yaml
+kubectl apply -f k8s/week1/lab3/lab3-memhog-fix.yaml
 kubectl get pod memhog
 ```
 
@@ -143,19 +143,19 @@ kubectl get endpoints probe-svc -w
 ```
 
 ### Manifests
-- `K8S-Lab-Week1/yaml-files/lab4-broken-liveness-probe.yaml`
-- `K8S-Lab-Week1/yaml-files/lab4-broken-readiness-probe.yaml`
-- `K8S-Lab-Week1/yaml-files/lab4-fix-liveness-probe.yaml`
-- `K8S-Lab-Week1/yaml-files/lab4-readiness-service.yaml`
+- `k8s/week1/lab4/lab4-broken-liveness-probe.yaml`
+- `k8s/week1/lab4/lab4-broken-readiness-probe.yaml`
+- `k8s/week1/lab4/lab4-fix-liveness-probe.yaml`
+- `k8s/week1/lab4/lab4-readiness-service.yaml`
 
 ### Walkthrough (example + tips)
 **Example flow**
 ```bash
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab4-broken-liveness-probe.yaml
+kubectl apply -f k8s/week1/lab4/lab4-broken-liveness-probe.yaml
 kubectl describe pod probe-demo
 kubectl delete pod probe-demo
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab4-fix-liveness-probe.yaml
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab4-readiness-service.yaml
+kubectl apply -f k8s/week1/lab4/lab4-fix-liveness-probe.yaml
+kubectl apply -f k8s/week1/lab4/lab4-readiness-service.yaml
 kubectl get endpoints probe-svc -w
 ```
 
@@ -184,22 +184,22 @@ kubectl logs cfg-demo
 ```
 
 ### Manifests
-- `K8S-Lab-Week1/yaml-files/lab5-configmap-env-vars.yaml`
-- `K8S-Lab-Week1/yaml-files/lab5-configmap-broken-env-vars.yaml`
-- `K8S-Lab-Week1/yaml-files/lab5-configmap-fix-env-vars.yaml`
+- `k8s/week1/lab5/lab5-configmap-env-vars.yaml`
+- `k8s/week1/lab5/lab5-configmap-broken-env-vars.yaml`
+- Reuse `k8s/week1/lab5/lab5-configmap-env-vars.yaml` as the fix manifest.
 
 ### Walkthrough (example + tips)
 **Example flow**
 ```bash
 kubectl create configmap app-cm --from-literal=APP_MODE=dev
 kubectl create secret generic app-secret --from-literal=API_KEY=supersecret
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab5-configmap-env-vars.yaml
+kubectl apply -f k8s/week1/lab5/lab5-configmap-env-vars.yaml
 kubectl logs cfg-demo
 kubectl delete pod cfg-demo
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab5-configmap-broken-env-vars.yaml
+kubectl apply -f k8s/week1/lab5/lab5-configmap-broken-env-vars.yaml
 kubectl describe pod cfg-demo
 kubectl delete pod cfg-demo
-kubectl apply -f K8S-Lab-Week1/yaml-files/lab5-configmap-fix-env-vars.yaml
+kubectl apply -f k8s/week1/lab5/lab5-configmap-env-vars.yaml
 ```
 
 **What to look for**

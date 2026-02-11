@@ -12,7 +12,7 @@ This directory contains the original Notion export and the YAML manifests used t
 ## Directory layout
 
 - `ExportBlock-.../`: Raw Notion markdown export.
-- `yaml-files/`: Runnable manifests for each lab scenario.
+- `k8s/week1/`: Canonical runnable manifests for each lab scenario (outside this folder).
 
 ## Optional namespace context (used in examples)
 
@@ -32,22 +32,21 @@ Context "kind-kind" modified.
 ## YAML manifest quick map
 
 ### Lab 2 — RBAC
-- `yaml-files/lab2-rbac-fix.yaml`
+- `k8s/week1/lab2/lab2-rbac-fix.yaml`
 
 ### Lab 3 — OOMKilled
-- `yaml-files/lab3-memhog.yaml` (intentionally constrained)
-- `yaml-files/lab3-memhog-fix.yaml` (right-sized memory limit)
+- `k8s/week1/lab3/lab3-memhog.yaml` (intentionally constrained)
+- `k8s/week1/lab3/lab3-memhog-fix.yaml` (right-sized memory limit)
 
 ### Lab 4 — Probes
-- `yaml-files/lab4-broken-liveness-probe.yaml` (broken liveness path)
-- `yaml-files/lab4-broken-readiness-probe.yaml` (broken readiness path)
-- `yaml-files/lab4-fix-liveness-probe.yaml` (healthy liveness/readiness)
-- `yaml-files/lab4-readiness-service.yaml` (service for readiness testing)
+- `k8s/week1/lab4/lab4-broken-liveness-probe.yaml` (broken liveness path)
+- `k8s/week1/lab4/lab4-broken-readiness-probe.yaml` (broken readiness path)
+- `k8s/week1/lab4/lab4-fix-liveness-probe.yaml` (healthy liveness/readiness)
+- `k8s/week1/lab4/lab4-readiness-service.yaml` (service for readiness testing)
 
 ### Lab 5 — ConfigMap/Secret
-- `yaml-files/lab5-configmap-env-vars.yaml` (healthy baseline)
-- `yaml-files/lab5-configmap-broken-env-vars.yaml` (intentional secret typo)
-- `yaml-files/lab5-configmap-fix-env-vars.yaml` (fixed secret ref)
+- `k8s/week1/lab5/lab5-configmap-env-vars.yaml` (healthy baseline and fix manifest)
+- `k8s/week1/lab5/lab5-configmap-broken-env-vars.yaml` (intentional secret typo)
 
 ---
 
@@ -132,7 +131,7 @@ Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:de
 
 ### 3) Apply fix and validate
 ```bash
-kubectl apply -f yaml-files/lab2-rbac-fix.yaml
+kubectl apply -f k8s/week1/lab2/lab2-rbac-fix.yaml
 kubectl auth can-i list pods --as=system:serviceaccount:development:dev-sa -n development
 kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
 ```
@@ -216,7 +215,7 @@ lab-control-plane  250m         12%    1500Mi          40%
 
 ### 1) Deploy constrained workload
 ```bash
-kubectl apply -f yaml-files/lab3-memhog.yaml
+kubectl apply -f k8s/week1/lab3/lab3-memhog.yaml
 kubectl get pod memhog -w
 ```
 
@@ -249,7 +248,7 @@ Exit Code:    137
 ### 3) Apply fixed resources and re-validate
 ```bash
 kubectl delete pod memhog
-kubectl apply -f yaml-files/lab3-memhog-fix.yaml
+kubectl apply -f k8s/week1/lab3/lab3-memhog-fix.yaml
 kubectl get pod memhog -w
 kubectl top pod memhog -n week1
 ```
@@ -268,7 +267,7 @@ memhog   1/1     Running   0          8s
 
 ### 1) Break liveness and observe restarts
 ```bash
-kubectl apply -f yaml-files/lab4-broken-liveness-probe.yaml
+kubectl apply -f k8s/week1/lab4/lab4-broken-liveness-probe.yaml
 kubectl get pod probe-demo -w
 kubectl describe pod probe-demo
 ```
@@ -286,7 +285,7 @@ Normal   Killing    ...  Container nginx failed liveness probe, will be restarte
 ### 2) Fix liveness/readiness and verify
 ```bash
 kubectl delete pod probe-demo
-kubectl apply -f yaml-files/lab4-fix-liveness-probe.yaml
+kubectl apply -f k8s/week1/lab4/lab4-fix-liveness-probe.yaml
 kubectl get pod probe-demo -w
 kubectl describe pod probe-demo
 ```
@@ -301,7 +300,7 @@ probe-demo   1/1     Running   0          12s
 
 ### 3) Create service and verify ready endpoints
 ```bash
-kubectl apply -f yaml-files/lab4-readiness-service.yaml
+kubectl apply -f k8s/week1/lab4/lab4-readiness-service.yaml
 kubectl get endpoints probe-svc -w
 ```
 
@@ -315,7 +314,7 @@ probe-svc   10.244.0.18:80   80s
 ### 4) Break readiness only and confirm endpoint removal
 ```bash
 kubectl delete pod probe-demo
-kubectl apply -f yaml-files/lab4-broken-readiness-probe.yaml
+kubectl apply -f k8s/week1/lab4/lab4-broken-readiness-probe.yaml
 kubectl get pod probe-demo -w
 kubectl describe pod probe-demo
 kubectl get endpoints probe-svc -w
@@ -372,7 +371,7 @@ data:
 
 ### 2) Healthy env injection
 ```bash
-kubectl apply -f yaml-files/lab5-configmap-env-vars.yaml
+kubectl apply -f k8s/week1/lab5/lab5-configmap-env-vars.yaml
 kubectl get pod cfg-demo -w
 kubectl logs cfg-demo
 kubectl describe pod cfg-demo
@@ -390,7 +389,7 @@ API_KEY=supersecret
 ### 3) Break secret reference intentionally
 ```bash
 kubectl delete pod cfg-demo
-kubectl apply -f yaml-files/lab5-configmap-broken-env-vars.yaml
+kubectl apply -f k8s/week1/lab5/lab5-configmap-broken-env-vars.yaml
 kubectl get pod cfg-demo -w
 kubectl describe pod cfg-demo
 kubectl logs cfg-demo
@@ -409,7 +408,7 @@ Error from server (BadRequest): container "app" in pod "cfg-demo" is waiting to 
 ### 4) Fix secret reference and verify
 ```bash
 kubectl delete pod cfg-demo
-kubectl apply -f yaml-files/lab5-configmap-fix-env-vars.yaml
+kubectl apply -f k8s/week1/lab5/lab5-configmap-env-vars.yaml
 kubectl get pod cfg-demo -w
 kubectl logs cfg-demo
 kubectl describe pod cfg-demo
