@@ -56,8 +56,9 @@ Use these to speak clearly about real incidents:
 ├── manifests/
 │   └── templates/
 ├── K8S-Lab-Week1/
-│   ├── ExportBlock-.../
-│   └── yaml-files/
+│   └── ExportBlock-.../
+├── k8s/
+│   └── week1/
 └── scripts/
     └── verify-markdown-links.sh
 ```
