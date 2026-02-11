@@ -32,7 +32,7 @@ TODO: No explicit clean-slate output captured for Lab 4.
 ## Step 1 - Broken liveness probe (restart loop)
 
 ```bash
-kubectl apply -f lab4-broken-liveliness-probe.yaml
+kubectl apply -f lab4-broken-liveness-probe.yaml
 kubectl get pod probe-demo -w
 kubectl describe pod probe-demo
 ```
@@ -40,7 +40,7 @@ kubectl describe pod probe-demo
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week1$ kubectl apply -f lab4-broken-liveliness-probe.yaml
+polakinio@Polakinio:~/Projects/k8s/week1$ kubectl apply -f lab4-broken-liveness-probe.yaml
 pod/probe-demo created
 ...
 Warning  Unhealthy  5s (x2 over 10s)  kubelet  Liveness probe failed: HTTP probe failed with statuscode: 404
@@ -53,7 +53,7 @@ probe-demo   1/1     Running   3 (2s ago)   47s
 
 ```bash
 kubectl delete pod probe-demo
-kubectl apply -f lab4-fix-liveliness-probe.yaml
+kubectl apply -f lab4-fix-liveness-probe.yaml
 kubectl get pod probe-demo -w
 kubectl describe pod probe-demo
 ```
@@ -63,7 +63,7 @@ Terminal log:
 ```bash
 polakinio@Polakinio:~/Projects/k8s/week1$ kubectl delete pod probe-demo
 pod "probe-demo" deleted
-polakinio@Polakinio:~/Projects/k8s/week1$ kubectl apply -f lab4-fix-liveliness-probe.yaml
+polakinio@Polakinio:~/Projects/k8s/week1$ kubectl apply -f lab4-fix-liveness-probe.yaml
 pod/probe-demo created
 ...
 probe-demo   1/1     Running   0          12s

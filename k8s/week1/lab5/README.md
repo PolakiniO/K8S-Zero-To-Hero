@@ -121,7 +121,7 @@ Error from server (BadRequest): container"app"in pod"cfg-demo" is waiting to sta
 ## Step 4 - Restore and verify running
 
 ```bash
-kubectl apply -f lab5-configmap-fix-env-vars.yaml
+kubectl apply -f lab5-configmap-env-vars.yaml
 kubectl get pod cfg-demo -w
 kubectl logs cfg-demo
 kubectl describe pod cfg-demo
@@ -130,7 +130,7 @@ kubectl describe pod cfg-demo
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week1$ kubectl apply -f lab5-configmap-fix-env-vars.yaml
+polakinio@Polakinio:~/Projects/k8s/week1$ kubectl apply -f lab5-configmap-env-vars.yaml
 pod/cfg-demo created
 
 polakinio@Polakinio:~/Projects/k8s/week1$ kubectl get pod cfg-demo -w
@@ -147,5 +147,5 @@ API_KEY=supersecret
 - Failure symptom: Pod stuck in `CreateContainerConfigError`.
 - First command used and why: `kubectl describe pod cfg-demo` to read failure events for env source references.
 - Root cause: Secret name typo (`app-secret-typo`).
-- Fix: Restore secret reference via `lab5-configmap-fix-env-vars.yaml`.
+- Fix: Restore secret reference via `lab5-configmap-env-vars.yaml`.
 - Prevention step: Verify ConfigMap/Secret names with `kubectl get` before applying pod specs.
