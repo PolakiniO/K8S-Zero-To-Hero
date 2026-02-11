@@ -20,7 +20,7 @@ spec:
         failureThreshold: 3
       readinessProbe:
         httpGet:
-          path: /broken
+          path: /
           port: 80
         initialDelaySeconds: 3
         periodSeconds: 5
