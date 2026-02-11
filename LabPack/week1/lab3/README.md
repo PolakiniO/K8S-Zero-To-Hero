@@ -37,9 +37,9 @@ kubectl get pod memhog -w
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/LabPack/week1$ kubectl apply -f lab3-memhog.yaml
+polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl apply -f lab3-memhog.yaml
 pod/memhog created
-polakinio@Polakinio:~/Projects/k8s/LabPack/week1$ kubectl get pod memhog -w
+polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl get pod memhog -w
 NAME     READY   STATUS              RESTARTS   AGE
 memhog   0/1     ContainerCreating   0          9s
 memhog   1/1     Running             0          24s
@@ -98,14 +98,14 @@ while true; do kubectl top pod memhog -n week1; sleep 1; done
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/LabPack/week1$ kubectl delete pod memhog
+polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl delete pod memhog
 pod "memhog" deleted
-polakinio@Polakinio:~/Projects/k8s/LabPack/week1$ kubectl apply -f lab3-memhog-fix.yaml
+polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl apply -f lab3-memhog-fix.yaml
 pod/memhog created
-polakinio@Polakinio:~/Projects/k8s/LabPack/week1$ kubectl get pod memhog -w
+polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl get pod memhog -w
 NAME     READY   STATUS    RESTARTS   AGE
 memhog   1/1     Running   0          8s
-^Cpolakinio@Polakinio:~/Projects/k8s/LabPack/week1$
+^Cpolakinio@Polakinio:~/Projects/LabPack/week1$
 ...
 NAME     CPU(cores)   MEMORY(bytes)
 memhog   105m         242Mi
