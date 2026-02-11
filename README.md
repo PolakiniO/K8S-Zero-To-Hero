@@ -55,9 +55,21 @@ Use these to speak clearly about real incidents:
 │   └── week-3/
 ├── manifests/
 │   └── templates/
+├── K8S-Lab-Week1/
+│   ├── ExportBlock-.../
+│   └── yaml-files/
 └── scripts/
     └── verify-markdown-links.sh
 ```
+
+
+## Imported Week 1 Notion Export
+
+If you imported the Week 1 Notion export, use this entry point:
+
+- [`K8S-Lab-Week1/README.md`](K8S-Lab-Week1/README.md)
+
+This keeps the original export for reference while exposing normalized YAML manifests for lab execution.
 
 ## How to Contribute Your Learning
 
