@@ -4,11 +4,11 @@ Week 1 focuses on day-1/day-2 operations and troubleshooting workflows: creating
 
 ## Table of Contents
 
-- [Lab 1 - Pod Creation + Image Failure](k8s/LabPack/week1/lab1/README.md)
-- [Lab 2 - Namespaces + RBAC Failure](k8s/LabPack/week1/lab2/README.md)
-- [Lab 3 - Requests/Limits + OOMKilled](k8s/LabPack/week1/lab3/README.md)
-- [Lab 4 - Liveness + Readiness Probes](k8s/LabPack/week1/lab4/README.md)
-- [Lab 5 - ConfigMap and Secret Failures](k8s/LabPack/week1/lab5/README.md)
+- [Lab 1 - Pod Creation + Image Failure](LabPack/week1/lab1/README.md)
+- [Lab 2 - Namespaces + RBAC Failure](LabPack/week1/lab2/README.md)
+- [Lab 3 - Requests/Limits + OOMKilled](LabPack/week1/lab3/README.md)
+- [Lab 4 - Liveness + Readiness Probes](LabPack/week1/lab4/README.md)
+- [Lab 5 - ConfigMap and Secret Failures](LabPack/week1/lab5/README.md)
 
 ## Prerequisites
 
@@ -20,8 +20,8 @@ Week 1 focuses on day-1/day-2 operations and troubleshooting workflows: creating
 
 ## How to run
 
-- Apply manifests directly from each lab folder (for example `k8s/LabPack/week1/lab4/*.yaml`).
-- Optional helpers are available per lab: `k8s/LabPack/week1/labX/run.sh`.
+- Apply manifests directly from each lab folder (for example `LabPack/week1/lab4/*.yaml`).
+- Optional helpers are available per lab: `LabPack/week1/labX/run.sh`.
 - Follow each lab README for ordered commands and validation steps.
 
 ## Note on terminal logs
