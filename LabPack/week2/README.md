@@ -2,11 +2,11 @@
 
 ## Table of Contents
 
-- [Lab 6 - Label Selector Mismatch](LabPack/week2/lab6/README.md)
-- [Lab 7 - Rolling Update Failure](LabPack/week2/lab7/README.md)
-- [Lab 8 - Storage Failure](LabPack/week2/lab8/README.md)
-- [Lab 9 - NetworkPolicy Failure](LabPack/week2/lab9/README.md)
-- [Lab 10 - Incident Simulation](LabPack/week2/lab10/README.md)
+- [Lab 6 - Label Selector Mismatch](lab6/README.md)
+- [Lab 7 - Rolling Update Failure](lab7/README.md)
+- [Lab 8 - Storage Failure](lab8/README.md)
+- [Lab 9 - NetworkPolicy Failure](lab9/README.md)
+- [Lab 10 - Incident Simulation](lab10/README.md)
 
 ## Notes
 
