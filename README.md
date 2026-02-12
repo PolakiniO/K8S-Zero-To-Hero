@@ -22,8 +22,8 @@ Start here if you are new to Kubernetes:
 Progress through these in order:
 
 - [Week 1: Core Operations + Failure Handling](K8S-Lab-Week1/README.md)
-- [Week 2: Networking + Deployment Incidents](K8S-Lab-Week2/Lab - Week 2 3042556d80ae807f9a21fe60558e2d0e.md)
-- [Week 3: Advanced Production Thinking](K8S-Lab-Week3/Lab - Week 3 3052556d80ae803987f4e98706d90b0c.md)
+- [Week 2: Networking + Deployment Incidents](K8S-Lab-Week2/Lab%20-%20Week%202%203042556d80ae807f9a21fe60558e2d0e.md)
+- [Week 3: Advanced Production Thinking](K8S-Lab-Week3/Lab%20-%20Week%203%203052556d80ae803987f4e98706d90b0c.md)
 
 #### Week 3 (Lab 3) Updates
 
