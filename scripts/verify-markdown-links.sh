@@ -6,31 +6,35 @@ cd "$ROOT_DIR"
 
 echo "Checking markdown links for local file references..."
 
-fail=0
-while IFS= read -r file; do
-  while IFS= read -r link; do
-    target="${link#*(}"
-    target="${target%)}"
-    target="${target%%#*}"
+python - <<'PY'
+from pathlib import Path
+from urllib.parse import unquote
+import re
+import sys
 
-    if [[ -z "$target" ]]; then
-      continue
-    fi
+root = Path('.').resolve()
+link_re = re.compile(r'\[[^\]]+\]\(([^()\n]*(?:\([^)]*\)[^()\n]*)*)\)')
+missing = []
 
-    if [[ "$target" =~ ^https?:// ]]; then
-      continue
-    fi
+for md in root.rglob('*.md'):
+    text = md.read_text(encoding='utf-8', errors='ignore')
+    for match in link_re.finditer(text):
+        target = match.group(1).strip().strip('<>')
+        if not target:
+            continue
+        target = target.split('#')[0].strip()
+        if not target or target.startswith(('http://', 'https://', 'mailto:', '#')):
+            continue
 
-    if [[ ! -e "$target" ]]; then
-      echo "Missing link target in $file -> $target"
-      fail=1
-    fi
-  done < <(rg -o "\[[^]]+\]\([^)]+\)" "$file")
-done < <(rg --files -g '*.md')
+        target_path = (md.parent / unquote(target)).resolve()
+        if not target_path.exists():
+            missing.append((md.relative_to(root), target))
 
-if [[ "$fail" -ne 0 ]]; then
-  echo "Link check failed"
-  exit 1
-fi
+if missing:
+    for md, target in missing:
+        print(f"Missing link target in {md} -> {target}")
+    print("Link check failed")
+    sys.exit(1)
 
-echo "Link check passed"
+print("Link check passed")
+PY
