@@ -59,7 +59,8 @@ Use these to speak clearly about real incidents:
 │   └── ExportBlock-.../
 ├── LabPack/
 │   ├── week1/
-│   └── week2/
+│   ├── week2/
+│   └── week3/
 └── scripts/
     └── verify-markdown-links.sh
 ```
