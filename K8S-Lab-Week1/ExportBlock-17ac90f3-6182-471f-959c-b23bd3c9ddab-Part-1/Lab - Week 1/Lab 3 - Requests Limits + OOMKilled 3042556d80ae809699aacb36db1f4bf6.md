@@ -4,7 +4,7 @@ This lab prefers the use of kuebctl top, which requires a metrics API server, wh
 
 [Lab 3 - Enabling kubectl top for OOMKilled observation](Lab%203%20-%20Requests%20Limits%20+%20OOMKilled/Lab%203%20-%20Enabling%20kubectl%20top%20for%20OOMKilled%20observa%203042556d80ae80fb8c9ef9483f908e87.md)
 
-[Lab - Fixing Metrics Server (kubectl top not working)](Lab%203%20-%20Requests%20Limits%20+%20OOMKilled/Lab%20-%20Fixing%20Metrics%20Server%20(kubectl%20top%20not%20worki%203042556d80ae80eea747cb5a5ae3103c.md)
+[Lab - Fixing Metrics Server (kubectl top not working)](Lab%203%20-%20Requests%20Limits%20+%20OOMKilled/Lab%20-%20Fixing%20Metrics%20Server%20%28kubectl%20top%20not%20worki%203042556d80ae80eea747cb5a5ae3103c.md)
 
 # Lab 3 - Requests, Limits, and OOMKilled
 
