@@ -1,98 +1,65 @@
 # Kubernetes Zero to Hero Repository
 
-A practical, interview-focused Kubernetes learning repository built from the **Kubernetes Zero to Hero** course notes, expanded into structured documentation, hands-on labs, and production-style incident drills.
+A practical, interview-focused Kubernetes learning repository built from the Kubernetes Zero to Hero course notes, expanded into structured documentation, hands-on labs, and production-style incident drills.
 
 ## Repository Goals
 
 - Consolidate Kubernetes fundamentals into a Notion-ready and GitHub-friendly knowledge base.
 - Provide step-by-step exercises from beginner to production troubleshooting.
-- Build confidence for CKA/CKAD prep and TAM/Security/Platform interview scenarios.
+- Build confidence for CKA and CKAD prep and TAM, Security, and Platform interview scenarios.
 - Encourage repeatable, evidence-driven debugging workflows.
 
 ## Learning Paths
 
 ### 1) Foundations
-Start here if you are new to Kubernetes:
-
 1. [Course Notebook](docs/course-notebook.md)
 2. [Kubernetes Glossary](docs/glossary.md)
 3. [kubectl Command Cheat Sheet](docs/kubectl-cheatsheet.md)
 
-### 2) Hands-on Labs
-Progress through these in order:
-
-- [Week 1: Core Operations + Failure Handling](K8S-Lab-Week1/README.md)
-- [Week 2: Networking + Deployment Incidents](LabPack/week2/README.md)
-- [Week 3: Advanced Production Thinking](LabPack/week3/README.md)
-
-#### Week 3 Lab Updates
-
-Week 3 now includes production-style incident labs focused on node health, resource pressure, certificate trust, and multi-service debugging:
-
-- Lab 11: Simulate node failure and recover workload availability.
-- Lab 12A/12B: Trigger memory pressure and kubelet eviction behavior.
-- Lab 13: Break and restore TLS trust with an expired/bad certificate chain.
-- Lab 14: Reproduce CPU resource exhaustion and scheduling failures.
-- Lab 15: Diagnose multi-service outages (DB config drift, backend binding, selector mismatch).
-
-Use `K8S-Lab-Week3/` manifests and the Week 3 lab notes to run these scenarios end-to-end.
+### 2) Hands-on Labs (under `Labs/`)
+- [Week 1: Core Operations and Failure Handling](Labs/K8S-Lab-Week1/README.md)
+- [Week 2: Networking and Deployment Incidents](Labs/K8S-Lab-Week2/README.md)
+- [Week 3: Advanced Production Thinking](Labs/K8S-Lab-Week3/README.md)
+- [Capstone Phase1: Platform, Security, and Verification](Labs/K8S-Lab-Capstone/docs/phase1/README.md)
 
 ### 3) Interview Readiness
-Use these to speak clearly about real incidents:
-
 - [Interview Readiness Plan](docs/interview-readiness-plan.md)
 - [Incident Debugging Playbook](docs/incident-debugging-playbook.md)
 
 ## Suggested Workflow
-
 1. Read one topic from `docs/`.
-2. Run the matching exercise from `K8S-Lab-Week1/`, `K8S-Lab-Week2/`, or `K8S-Lab-Week3/`.
+2. Run the matching lab from `Labs/`.
 3. Capture what failed, what command proved it, and what fixed it.
-4. Add your notes in the exercise markdown files.
-5. Re-run the same scenario until explanation becomes natural.
+4. Add notes in the corresponding lab markdown files.
+5. Re-run the same scenario until explanation is natural.
 
 ## Repository Structure
 
 ```text
 .
 ├── docs/
-│   ├── course-notebook.md
-│   ├── glossary.md
-│   ├── incident-debugging-playbook.md
-│   ├── interview-readiness-plan.md
-│   └── kubectl-cheatsheet.md
-├── K8S-Lab-Week1/
-│   └── ExportBlock-.../
-├── K8S-Lab-Week2/
-│   ├── Lab 6 ... Lab 10 markdown + manifests
-│   └── Lab - Week 2 ...md
-├── K8S-Lab-Week3/
-│   ├── Lab 11 ... Lab 15 markdown + manifests
-│   └── Lab - Week 3 ...md
+├── Labs/
+│   ├── K8S-Lab-Week1/
+│   ├── K8S-Lab-Week2/
+│   ├── K8S-Lab-Week3/
+│   └── K8S-Lab-Capstone/
+│       ├── 01-platform/
+│       ├── 02-apps/
+│       ├── docs/phase1/
+│       └── scripts/
 ├── LabPack/
-│   ├── week1/
-│   ├── week2/
-│   └── week3/
+├── exercises/
 └── scripts/
-    └── verify-markdown-links.sh
 ```
 
-
-## Imported Week 1 Notion Export
-
-If you imported the Week 1 Notion export, use this entry point:
-
-- [`K8S-Lab-Week1/README.md`](K8S-Lab-Week1/README.md)
-
-This keeps the original export for reference while exposing normalized YAML manifests for lab execution.
+## Lab Navigation Quick Links
+- [Week 1 README](Labs/K8S-Lab-Week1/README.md)
+- [Week 2 README](Labs/K8S-Lab-Week2/README.md)
+- [Week 3 README](Labs/K8S-Lab-Week3/README.md)
+- [Capstone Phase1 README](Labs/K8S-Lab-Capstone/docs/phase1/README.md)
 
 ## How to Contribute Your Learning
-
 - Keep examples reproducible.
 - Prefer declarative manifests over ad-hoc commands.
-- Add commands + expected outcomes + failure modes.
+- Add commands plus expected outcomes and failure modes.
 - If you find an error, open an issue or submit a PR with corrected content.
-
----
-
-If you are preparing for interviews, treat every failed lab as an incident report and practice saying the root cause in one sentence.
