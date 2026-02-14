@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memhog
+spec:
+  containers:
+    - name: memhog
+      image: python:3.12-slim
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "50m"
+        limits:
+          memory: "128Mi"
+          cpu: "200m"
+      command: ["python", "-c"]
+      args:
+        - |
+          import time
+          a=[]
+          print("sleeping 60s so metrics-server can scrape me...")
+          time.sleep(60)
+          i=0
+          while True:
+            a.append("x"*1024*1024)
+            i+=1
+            print(f"allocated {i} MiB")
+            time.sleep(0.05)

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cfg-demo
+spec:
+  containers:
+    - name: app
+      image: busybox:1.36
+      command:
+        [
+          "sh",
+          "-c",
+          "echo APP_MODE=$APP_MODE; echo API_KEY=$API_KEY; sleep 3600",
+        ]
+      env:
+        - name: APP_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: app-cm
+              key: APP_MODE
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret-typo
+              key: API_KEY
