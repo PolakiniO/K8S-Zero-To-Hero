@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-failure-demo
+  labels:
+    app: node-failure-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-failure-demo
+  template:
+    metadata:
+      labels:
+        app: node-failure-demo
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway #this fixes the issue and allows both replicas to run on labnp-worker2 [temp fix]
+          labelSelector:
+            matchLabels:
+              app: node-failure-demo
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
