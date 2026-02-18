@@ -1,15 +1,44 @@
-# Kubernetes Zero to Hero Repository
+# 🚀 Kubernetes Zero to Hero Repository
 
-A practical, interview-focused Kubernetes learning repository built from the Kubernetes Zero to Hero course notes, expanded into structured documentation, hands-on labs, and production-style incident drills.
+A practical, interview-focused Kubernetes learning repository built from **Kubernetes Zero to Hero** course notes and expanded into:
+- structured documentation,
+- hands-on labs,
+- and production-style incident drills.
 
-## Repository Goals
+---
+
+## 🎯 Repository Goals
 
 - Consolidate Kubernetes fundamentals into a Notion-ready and GitHub-friendly knowledge base.
 - Provide step-by-step exercises from beginner to production troubleshooting.
-- Build confidence for CKA and CKAD prep and TAM, Security, and Platform interview scenarios.
+- Build confidence for **CKA/CKAD prep** and TAM, Security, and Platform interview scenarios.
 - Encourage repeatable, evidence-driven debugging workflows.
 
-## Learning Paths
+## ✅ Prerequisites
+
+Before starting, make sure you have:
+
+### Required
+- Basic Linux command-line familiarity.
+- Basic understanding of containers and Kubernetes concepts (pods, services, deployments).
+- A local Kubernetes environment, such as:
+  - [minikube](https://minikube.sigs.k8s.io/docs/start/),
+  - [kind](https://kind.sigs.k8s.io/), or
+  - Docker Desktop Kubernetes.
+
+### CLI Tools
+- [`kubectl`](https://kubernetes.io/docs/tasks/tools/)
+- [`helm`](https://helm.sh/docs/intro/install/) *(recommended for extended experiments)*
+- [`git`](https://git-scm.com/downloads)
+
+### Helpful (Optional)
+- [`k9s`](https://k9scli.io/)
+- [`jq`](https://jqlang.github.io/jq/)
+- [`yq`](https://mikefarah.gitbook.io/yq/)
+
+---
+
+## 🧭 Learning Paths
 
 ### 1) Foundations
 1. [Course Notebook](docs/course-notebook.md)
@@ -26,14 +55,17 @@ A practical, interview-focused Kubernetes learning repository built from the Kub
 - [Interview Readiness Plan](docs/interview-readiness-plan.md)
 - [Incident Debugging Playbook](docs/incident-debugging-playbook.md)
 
-## Suggested Workflow
+---
+
+## 🛠️ Suggested Workflow
+
 1. Read one topic from `docs/`.
 2. Run the matching lab from `Labs/`.
 3. Capture what failed, what command proved it, and what fixed it.
 4. Add notes in the corresponding lab markdown files.
 5. Re-run the same scenario until explanation is natural.
 
-## Repository Structure
+## 🗂️ Repository Structure
 
 ```text
 .
@@ -52,13 +84,15 @@ A practical, interview-focused Kubernetes learning repository built from the Kub
 └── scripts/
 ```
 
-## Lab Navigation Quick Links
+## 🔗 Lab Navigation Quick Links
+
 - [Week 1 README](Labs/K8S-Lab-Week1/README.md)
 - [Week 2 README](Labs/K8S-Lab-Week2/README.md)
 - [Week 3 README](Labs/K8S-Lab-Week3/README.md)
 - [Capstone Phase1 README](Labs/K8S-Lab-Capstone/docs/phase1/README.md)
 
-## How to Contribute Your Learning
+## 🤝 How to Contribute Your Learning
+
 - Keep examples reproducible.
 - Prefer declarative manifests over ad-hoc commands.
 - Add commands plus expected outcomes and failure modes.
