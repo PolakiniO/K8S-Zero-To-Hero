@@ -97,3 +97,15 @@ Before starting, make sure you have:
 - Prefer declarative manifests over ad-hoc commands.
 - Add commands plus expected outcomes and failure modes.
 - If you find an error, open an issue or submit a PR with corrected content.
+
+
+## Security hygiene checks
+
+Before publishing changes, run:
+
+```bash
+./scripts/security-release-scan.sh
+```
+
+This blocks accidental inclusion of `.zip`, Notion export artifacts, `.env` files, key material, dumps/logs, and common high-risk secret patterns in tracked files.
+

@@ -24,3 +24,6 @@ id_ed25519
 # Notion/HTML export artifacts
 notion_exports/
 *_files/
+
+# Explicit block for common Notion export bundles
+ExportBlock-*
