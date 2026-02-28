@@ -51,7 +51,7 @@ kubectl get pod
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl config view --minify | grep namespace
+user@host:~/Projects/k8s/week2$ kubectl config view --minify | grep namespace
 
 kubectl delete svc probe-svc --ignore-not-found
 kubectl delete pod probe-demo --ignore-not-found
@@ -65,18 +65,18 @@ kubectl delete endpoints web-demo --ignore-not-found
     namespace: week1
 pod"cfg-demo" deleted
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl create ns week2 --dry-run=client -o yaml | kebectl apply -f
+user@host:~/Projects/k8s/week2$ kubectl create ns week2 --dry-run=client -o yaml | kebectl apply -f
 kebectl:command not found
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl create ns week2 --dry-run=client -o yaml | kebectl apply -f -
+user@host:~/Projects/k8s/week2$ kubectl create ns week2 --dry-run=client -o yaml | kebectl apply -f -
 kebectl:command not found
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl create ns week2 --dry-run=client -o yaml | kubectl apply -f -
+user@host:~/Projects/k8s/week2$ kubectl create ns week2 --dry-run=client -o yaml | kubectl apply -f -
 namespace/week2 created
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl config set-context --current --namespace=week2
+user@host:~/Projects/k8s/week2$ kubectl config set-context --current --namespace=week2
 Context"kind-lab" modified.
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl config view -minify
+user@host:~/Projects/k8s/week2$ kubectl config view -minify
 error: unknown shorthand flag:'m'in -minify
 See'kubectl config view --help'for usage.
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl config view --minify
+user@host:~/Projects/k8s/week2$ kubectl config view --minify
 apiVersion: v1
 clusters:
 - cluster:
@@ -97,10 +97,10 @@ preferences: {}users:
     client-certificate-data: DATA+OMITTED
     client-key-data: DATA+OMITTED
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl config view --minify | grep namespace
+user@host:~/Projects/k8s/week2$ kubectl config view --minify | grep namespace
     namespace: week2
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl delete pod web-demo --ignore-not-found
+user@host:~/Projects/k8s/week2$ kubectl delete pod web-demo --ignore-not-found
 kubectl delete svc web-demo --ignore-not-found
 ```
 
@@ -114,14 +114,14 @@ kubectl get pod web-demo --show-labels -w
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$touch lab6-pod.yaml
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply -f lab6-pod.yaml
+user@host:~/Projects/k8s/week2$touch lab6-pod.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply -f lab6-pod.yaml
 pod/web-demo created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get pod web-demo --show-labels -w
+user@host:~/Projects/k8s/week2$ kubectl get pod web-demo --show-labels -w
 NAME       READY   STATUS    RESTARTS   AGE   LABELS
 web-demo   1/1     Running   0          14s   app=web
-^Cpolakinio@Polakinio:~/Projects/k8s/week2$
+^Cuser@host:~/Projects/k8s/week2$
 ```
 
 ## Step 2 - Create Service with wrong selector
@@ -134,11 +134,11 @@ kubectl get svc
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$touch lab6-service-broken.yaml
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply -f lab6-service-broken.yaml
+user@host:~/Projects/k8s/week2$touch lab6-service-broken.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply -f lab6-service-broken.yaml
 service/web-demo created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get svc
+user@host:~/Projects/k8s/week2$ kubectl get svc
 NAME       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 web-demo   ClusterIP   10.96.192.206   <none>        80/TCP    13s
 ```
@@ -154,14 +154,14 @@ kubectl get pod --show-labels
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get endpoints web-deno
+user@host:~/Projects/k8s/week2$ kubectl get endpoints web-deno
 Error from server (NotFound): endpoints"web-deno" not found
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get endpoints web-demo
+user@host:~/Projects/k8s/week2$ kubectl get endpoints web-demo
 NAME       ENDPOINTS   AGE
 web-demo   <none>      26s
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl describe svc web-demo
+user@host:~/Projects/k8s/week2$ kubectl describe svc web-demo
 Name:                     web-demo
 Namespace:                week2
 Labels:                   <none>
@@ -174,7 +174,7 @@ TargetPort:               80/TCP
 Endpoints:
 Events:                   <none>
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get pod --show-labels
+user@host:~/Projects/k8s/week2$ kubectl get pod --show-labels
 NAME       READY   STATUS    RESTARTS   AGE    LABELS
 web-demo   1/1     Running   0          118s   app=web
 ```
@@ -190,21 +190,21 @@ kubectl get endpoints web-demo
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$touch lab6-service-fix.yaml
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl delete pod web-demo
+user@host:~/Projects/k8s/week2$touch lab6-service-fix.yaml
+user@host:~/Projects/k8s/week2$ kubectl delete pod web-demo
 pod"web-demo" deleted
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply -f lab6-service-fix.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply -f lab6-service-fix.yaml
 service/web-demo configured
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply lab6-pod.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply lab6-pod.yaml
 error: Unexpected args: [lab6-pod.yaml]
 See'kubectl apply -h'forhelp and examples
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply -f lab6-pod.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply -f lab6-pod.yaml
 pod/web-demo created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get endpoints web-demo
+user@host:~/Projects/k8s/week2$ kubectl get endpoints web-demo
 NAME       ENDPOINTS        AGE
 web-demo   10.244.0.24:80   2m39s
 ```
