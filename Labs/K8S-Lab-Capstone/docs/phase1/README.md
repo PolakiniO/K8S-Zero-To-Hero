@@ -45,7 +45,7 @@ bash Labs/K8S-Lab-Capstone/scripts/verify.sh
   - Symptom: `no object matching key "nginx" in local store`, `No resources found` from `kubectl get ingressclass`
   - Fix: apply `01-platform/02-ingress-class.yaml` and restart ingress controller.
 - NodePort from WSL or nested virtualization unreachable
-  - Symptom: curls to `172.19.0.2:30080` timeout or hang
+  - Symptom: curls to `172.19.xxx.xxx:30080` timeout or hang
   - Fix: use `kubectl port-forward svc/ingress-nginx-controller -n ingress-nginx 18080:80 18443:443`
 - Port-forward 404
   - Symptom: Ingress returns 404 before ingress object or class is valid
