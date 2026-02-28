@@ -40,7 +40,7 @@ kubectl delete secret app-secret --ignore-not-found
 
 ```bash
 kubectl create configmap app-cm --from-literal=APP_MODE=dev
-kubectl create secret generic app-secret --from-literal=API_KEY=supersecret
+kubectl create secret generic app-secret --from-literal=API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 ```
 
 ### Validate
@@ -56,7 +56,7 @@ kubectl get secret app-secret -o yaml
 polakinio@Polakinio:~/Projects/k8s/week1$ kubectl create configmap app-cm --from-literal=APP_MODE=dev
 configmap/app-cm created
 
-polakinio@Polakinio:~/Projects/k8s/week1$ kubectl create secret generic app-secret --from-literal=API_KEY=supersecret
+polakinio@Polakinio:~/Projects/k8s/week1$ kubectl create secret generic app-secret --from-literal=API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 secret/app-secret created
 
 polakinio@Polakinio:~/Projects/k8s/week1$ kubectl get configmap app-cm -o yaml
@@ -74,7 +74,7 @@ metadata:
 polakinio@Polakinio:~/Projects/k8s/week1$ kubectl get secret app-secret -o yaml
 apiVersion: v1
 data:
-  API_KEY: c3VwZXJzZWNyZXQ=
+  API_KEY: <BASE64_ENCODED_EXAMPLE_PLACEHOLDER>
 kind: Secret
 metadata:
   creationTimestamp:"2026-02-11T15:44:22Z"
@@ -114,7 +114,7 @@ cfg-demo   1/1     Running   0          16s
 
 polakinio@Polakinio:~/Projects/k8s/week1$ kubectl logs cfg-demo
 APP_MODE=dev
-API_KEY=supersecret
+API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 ```
 
 ```bash
@@ -208,7 +208,7 @@ cfg-demo   1/1     Running   0          11s
 ```bash
 polakinio@Polakinio:~/Projects/k8s/week1$ kubectl logs cfg-demo
 APP_MODE=dev
-API_KEY=supersecret
+API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 ```
 
 ```bash

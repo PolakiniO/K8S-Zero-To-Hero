@@ -192,7 +192,7 @@ kubectl logs cfg-demo
 **Example flow**
 ```bash
 kubectl create configmap app-cm --from-literal=APP_MODE=dev
-kubectl create secret generic app-secret --from-literal=API_KEY=supersecret
+kubectl create secret generic app-secret --from-literal=API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 kubectl apply -f LabPack/week1/lab5/lab5-configmap-env-vars.yaml
 kubectl logs cfg-demo
 kubectl delete pod cfg-demo

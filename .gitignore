@@ -1,0 +1,22 @@
+# Secrets and local credential material
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+*kubeconfig*
+*.ovpn
+
+# Local data/log dumps
+*.sqlite
+*.db
+*.log
+*.sql
+*.dump
+*.bak
+
+# Exported lab archives (prefer source markdown in-repo)
+*.zip
