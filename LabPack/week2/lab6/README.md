@@ -140,7 +140,7 @@ service/web-demo created
 
 user@host:~/Projects/k8s/week2$ kubectl get svc
 NAME       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-web-demo   ClusterIP   10.96.192.206   <none>        80/TCP    13s
+web-demo   ClusterIP   10.96.xxx.xxx   <none>        80/TCP    13s
 ```
 
 ## Step 3 - Observe no endpoints
@@ -168,7 +168,7 @@ Labels:                   <none>
 Annotations:              <none>
 Selector:                 app=wronglabel
 Type:                     ClusterIP
-IP:                       10.96.192.206
+IP:                       10.96.xxx.xxx
 Port:                     <unset>  80/TCP
 TargetPort:               80/TCP
 Endpoints:
@@ -206,7 +206,7 @@ pod/web-demo created
 
 user@host:~/Projects/k8s/week2$ kubectl get endpoints web-demo
 NAME       ENDPOINTS        AGE
-web-demo   10.244.0.24:80   2m39s
+web-demo   10.244.xxx.xxx:80   2m39s
 ```
 
 ## Tips
