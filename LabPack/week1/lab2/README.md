@@ -40,9 +40,9 @@ kubectl -n development create sa dev-sa
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~$ kubectl create ns development
+user@host:~$ kubectl create ns development
 namespace/development created
-polakinio@Polakinio:~$ kubectl -n development create sa dev-sa
+user@host:~$ kubectl -n development create sa dev-sa
 serviceaccount/dev-sa created
 ```
 
@@ -56,9 +56,9 @@ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~$ kubectl auth can-i get pods --as=system:serviceaccount:development:dev-sa -n development
+user@host:~$ kubectl auth can-i get pods --as=system:serviceaccount:development:dev-sa -n development
 no
-polakinio@Polakinio:~$ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
+user@host:~$ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
 Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:development:dev-sa" cannot list resource "pods" in API group "" in the namespace "development"
 ```
 
@@ -71,8 +71,8 @@ kubectl apply -f lab2-rbac-fix.yaml
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/LabPack/week1$ touch lab2-rbac-fix.yaml
-polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl apply -f lab2-rbac-fix.yaml
+user@host:~/Projects/LabPack/week1$ touch lab2-rbac-fix.yaml
+user@host:~/Projects/LabPack/week1$ kubectl apply -f lab2-rbac-fix.yaml
 role.rbac.authorization.k8s.io/pod-reader created
 rolebinding.rbac.authorization.k8s.io/dev-sa-pod-reader created
 ```
@@ -87,9 +87,9 @@ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl auth can-i list pods --as=system:serviceaccount:development:dev-sa -n development
+user@host:~/Projects/LabPack/week1$ kubectl auth can-i list pods --as=system:serviceaccount:development:dev-sa -n development
 yes
-polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
+user@host:~/Projects/LabPack/week1$ kubectl get pods --as=system:serviceaccount:development:dev-sa -n development
 No resources found in development namespace.
 ```
 

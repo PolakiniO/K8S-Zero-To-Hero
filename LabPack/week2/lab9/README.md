@@ -47,7 +47,7 @@ kubectl delete networkpolicy allow-client-to-server --ignore-not-found
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl delete pod server --ignore-not-found
+user@host:~/Projects/k8s/week2$ kubectl delete pod server --ignore-not-found
 kubectl delete pod client --ignore-not-found
 kubectl delete networkpolicy deny-all --ignore-not-found
 kubectl delete networkpolicy allow-client --ignore-not-found
@@ -69,11 +69,11 @@ kubectl get pods -n calico-system -w
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kind delete cluster --name lab
+user@host:~/Projects/k8s/week2$ kind delete cluster --name lab
 Deleting cluster"lab" ...
 Deleted nodes: ["lab-control-plane"]
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kind create cluster --config kind-calico.yaml
+user@host:~/Projects/k8s/week2$ kind create cluster --config kind-calico.yaml
 Creating cluster"labnp" ...
  ✓ Ensuring node image (kindest/node:v1.30.0) 🖼
  ✓ Preparing nodes 📦 📦 📦
@@ -83,7 +83,7 @@ Creating cluster"labnp" ...
  ✓ Joining worker nodes 🚜
 Set kubectl context to"kind-labnp"
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
+user@host:~/Projects/k8s/week2$ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
 namespace/tigera-operator created
 ...
@@ -91,7 +91,7 @@ deployment.apps/tigera-operator created
 installation.operator.tigera.io/default created
 apiserver.operator.tigera.io/default created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get pods -n calico-system -w
+user@host:~/Projects/k8s/week2$ kubectl get pods -n calico-system -w
 NAME                         READY   STATUS    RESTARTS   AGE
 calico-typha-cc7c5bf-7zx7l   0/1     Pending   0          0s
 ...
@@ -112,7 +112,7 @@ kubectl config view --minify | grep namespace
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get ns
+user@host:~/Projects/k8s/week2$ kubectl get ns
 NAME                 STATUS   AGE
 calico-system        Active   3m39s
 default              Active   4m40s
@@ -122,13 +122,13 @@ kube-system          Active   4m40s
 local-path-storage   Active   4m34s
 tigera-operator      Active   4m1s
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl create ns week2
+user@host:~/Projects/k8s/week2$ kubectl create ns week2
 namespace/week2 created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl config set-context --current --namespace=week2
+user@host:~/Projects/k8s/week2$ kubectl config set-context --current --namespace=week2
 Context"kind-labnp" modified.
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl config view --minify | grep namespace
+user@host:~/Projects/k8s/week2$ kubectl config view --minify | grep namespace
     namespace: week2
 ```
 
@@ -144,13 +144,13 @@ kubectlwait --for=condition=Ready pod/client --timeout=120s
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply -f lab9-server.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply -f lab9-server.yaml
 pod/server created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply -f lab9-client.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply -f lab9-client.yaml
 pod/client created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectlwait --for=condition=Ready pod/server --timeout=120s
+user@host:~/Projects/k8s/week2$ kubectlwait --for=condition=Ready pod/server --timeout=120s
 kubectlwait --for=condition=Ready pod/client --timeout=120s
 pod/server condition met
 pod/client condition met
@@ -168,15 +168,15 @@ kubectlexec -it client -- wget -qO- http://server |head
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl expose pod server --name server --port 80
+user@host:~/Projects/k8s/week2$ kubectl expose pod server --name server --port 80
 service/server exposed
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl get endpoints server -w
+user@host:~/Projects/k8s/week2$ kubectl get endpoints server -w
 NAME     ENDPOINTS           AGE
 server   192.168.83.131:80   11s
 ^C
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectlexec -it client -- wget -qO- http://server |head
+user@host:~/Projects/k8s/week2$ kubectlexec -it client -- wget -qO- http://server |head
 <!DOCTYPE html>
 <html>
 <head>
@@ -198,10 +198,10 @@ kubectlexec -it client -- wget -qO- --timeout=2 http://server
 Terminal log:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl apply -f lab9-deny.yaml
+user@host:~/Projects/k8s/week2$ kubectl apply -f lab9-deny.yaml
 networkpolicy.networking.k8s.io/deny-all-to-server created
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectl describe networkpolicy deny-all-to-server
+user@host:~/Projects/k8s/week2$ kubectl describe networkpolicy deny-all-to-server
 Name:         deny-all-to-server
 Namespace:    week2
 Created on:   2026-02-11 20:58:00 +0200 IST
@@ -212,7 +212,7 @@ Spec:
   Not affecting egress traffic
   Policy Types: Ingress
 
-polakinio@Polakinio:~/Projects/k8s/week2$ kubectlexec -it client -- wget -qO- --timeout=2 http://server
+user@host:~/Projects/k8s/week2$ kubectlexec -it client -- wget -qO- --timeout=2 http://server
 wget: download timed outcommand terminated withexit code 1
 ```
 
