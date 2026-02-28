@@ -18,13 +18,8 @@ Week 3 introduces production-style incident response: node failure, memory press
 - `Lab *.md` files - lab narratives and troubleshooting flows
 
 ### Lab write-ups
-- [Week 3 index](./Lab%20-%20Week%203%203052556d80ae803987f4e98706d90b0c.md)
-- [Lab 11 - Simulate node failure](./Lab%2011%20-%20Simulate%20Node%20Failure%203052556d80ae80adba81ec722fb3c435.md)
-- [Lab 12A - Cluster resource exhaustion](./Lab%2012A%20-%20Cluster%20Resource%20Exhaustion%203052556d80ae8079a095c43fb2b58857.md)
-- [Lab 12B - Forced kubelet eviction](./Lab%2012B%20-%20Forced%20Kubelet%20Evictions%20Using%20evictionH%203052556d80ae801f80f4e6a2931b35e9.md)
-- [Lab 13 - Certificate expiration scenario](./Lab%2013%20-%20Certificate%20Expiration%20Scenario%20%28Break%20TL%203052556d80ae809aa0bee08cb3251f1f.md)
-- [Lab 14 - Cluster CPU exhaustion](./Lab%2014%20-%20Cluster%20Resource%20Exhaustion%20%28CPU%29%20and%20Sch%203052556d80ae80a69136c57daea65b0e.md)
-- [Lab 15 - Multi-service debugging](./Lab%2015%20-%20Multi%20service%20debugging%20%28DB%20config%20drift%20%203052556d80ae8066be92d683f1dccaa9.md)
+Per-lab narrative exports were removed to keep repository content source-native and avoid imported export artifacts.
+Use the manifests in this folder (`lab11-*.yaml` through `lab15-*.yaml`) together with command output you capture locally.
 
 ## How to run
 1. Apply baseline manifests first.
