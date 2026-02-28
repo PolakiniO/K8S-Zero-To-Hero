@@ -35,7 +35,7 @@ kubectl delete secret app-secret --ignore-not-found
 
 ```bash
 kubectl create configmap app-cm --from-literal=APP_MODE=dev
-kubectl create secret generic app-secret --from-literal=API_KEY=supersecret
+kubectl create secret generic app-secret --from-literal=API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 kubectl get configmap app-cm -o yaml
 kubectl get secret app-secret -o yaml
 ```
@@ -46,7 +46,7 @@ Terminal log:
 polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl create configmap app-cm --from-literal=APP_MODE=dev
 configmap/app-cm created
 
-polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl create secret generic app-secret --from-literal=API_KEY=supersecret
+polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl create secret generic app-secret --from-literal=API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 secret/app-secret created
 
 polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl get configmap app-cm -o yaml
@@ -59,7 +59,7 @@ kind: ConfigMap
 polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl get secret app-secret -o yaml
 apiVersion: v1
 data:
-  API_KEY: c3VwZXJzZWNyZXQ=
+  API_KEY: <BASE64_ENCODED_EXAMPLE_PLACEHOLDER>
 kind: Secret
 ...
 ```
@@ -85,7 +85,7 @@ cfg-demo   1/1     Running   0          16s
 
 polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl logs cfg-demo
 APP_MODE=dev
-API_KEY=supersecret
+API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 ```
 
 ## Step 3 - Break secret reference (CreateContainerConfigError)
@@ -139,7 +139,7 @@ cfg-demo   1/1     Running   0          11s
 
 polakinio@Polakinio:~/Projects/LabPack/week1$ kubectl logs cfg-demo
 APP_MODE=dev
-API_KEY=supersecret
+API_KEY=EXAMPLE_NOT_A_REAL_SECRET
 ```
 
 ## Reflection
