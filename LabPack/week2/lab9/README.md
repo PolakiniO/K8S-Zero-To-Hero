@@ -173,7 +173,7 @@ service/server exposed
 
 user@host:~/Projects/k8s/week2$ kubectl get endpoints server -w
 NAME     ENDPOINTS           AGE
-server   192.168.83.131:80   11s
+server   192.168.xxx.xxx:80   11s
 ^C
 
 user@host:~/Projects/k8s/week2$ kubectlexec -it client -- wget -qO- http://server |head
