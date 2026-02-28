@@ -86,7 +86,7 @@ user@host:~/Projects/LabPack/week1$ kubectl apply -f lab4-readiness-service.yaml
 service/probe-svc created
 user@host:~/Projects/LabPack/week1$ kubectl get endpoints probe-svc -w
 NAME        ENDPOINTS        AGE
-probe-svc   10.244.0.18:80   80s
+probe-svc   10.244.xxx.xxx:80   80s
 ```
 
 ## Step 4 - Broken readiness only + immutable Pod update error
