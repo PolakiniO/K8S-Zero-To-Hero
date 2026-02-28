@@ -12,7 +12,7 @@
 ### Lab environment baseline
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl get pods -A
+user@host:~/Projects/k8s/week3$ kubectl get pods -A
 kubectl get nodes
 kubectl top nodes
 NAMESPACE            NAME                                          READY   STATUS    RESTARTS      AGE
@@ -43,7 +43,7 @@ labnp-control-plane   Ready    control-plane   20h   v1.30.0
 labnp-worker          Ready    <none>          20h   v1.30.0
 labnp-worker2         Ready    <none>          20h   v1.30.0
 error: Metrics API not available
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Notes
@@ -56,12 +56,12 @@ Notes
 ### Step 1 - Create dedicated namespace and switch context
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl create ns lab14 --dry-run=client -o yaml | kubectl apply -f -
+user@host:~/Projects/k8s/week3$ kubectl create ns lab14 --dry-run=client -o yaml | kubectl apply -f -
 namespace/lab14 created
-polakinio@Polakinio:~/Projects/k8s/week3$
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl config set-context --current --namespace=lab14
+user@host:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$ kubectl config set-context --current --namespace=lab14
 Context"kind-labnp" modified.
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 ---
@@ -71,7 +71,7 @@ polakinio@Polakinio:~/Projects/k8s/week3$
 I created the deployment YAML and applied it.
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$cat lab14-cpuhog.yaml
+user@host:~/Projects/k8s/week3$cat lab14-cpuhog.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -100,28 +100,28 @@ spec:
           limits:
             cpu:"1000m"
             memory:"128Mi"
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Apply and observe:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl apply -f lab14-cpuhog.yaml
+user@host:~/Projects/k8s/week3$ kubectl apply -f lab14-cpuhog.yaml
 deployment.apps/cpuhog created
-polakinio@Polakinio:~/Projects/k8s/week3$
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl get pods -o wide -w
+user@host:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$ kubectl get pods -o wide -w
 NAME                     READY   STATUS              RESTARTS   AGE   IP       NODE           NOMINATED NODE   READINESS GATES
 cpuhog-99fdf957b-vk55b   0/1     ContainerCreating   0          12s   <none>   labnp-worker   <none>           <none>
 cpuhog-99fdf957b-vk55b   0/1     RunContainerError   0          13s   192.168.83.153   labnp-worker   <none>           <none>
 cpuhog-99fdf957b-vk55b   0/1     RunContainerError   1 (0s ago)   16s   192.168.83.153   labnp-worker   <none>           <none>
 cpuhog-99fdf957b-vk55b   0/1     CrashLoopBackOff    1 (1s ago)   17s   192.168.83.153   labnp-worker   <none>           <none>
-^Cpolakinio@Polakinio:~/Projects/k8s/week3$
+^Cuser@host:~/Projects/k8s/week3$
 ```
 
 Root cause from `describe`:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl describe pod cpuhog-99fdf957b-vk55b
+user@host:~/Projects/k8s/week3$ kubectl describe pod cpuhog-99fdf957b-vk55b
 ...
 Last State:     Terminated
   Reason:       StartError
@@ -130,7 +130,7 @@ Last State:     Terminated
 Events:
   Warning  Failed  ...  Error: ...exec:"--cpu": executable file not foundin$PATH: unknown
 ...
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 What happened
@@ -143,30 +143,30 @@ What happened
 ### Step 3 - Fix cpuhog by rolling out corrected spec
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl apply -f lab14-cpuhog.yaml
+user@host:~/Projects/k8s/week3$ kubectl apply -f lab14-cpuhog.yaml
 deployment.apps/cpuhog configured
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl rollout restart deploy/cpuhog
+user@host:~/Projects/k8s/week3$ kubectl rollout restart deploy/cpuhog
 deployment.apps/cpuhog restarted
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl rollout status deploy/cpuhog
+user@host:~/Projects/k8s/week3$ kubectl rollout status deploy/cpuhog
 deployment"cpuhog" successfully rolled out
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Pods after fix:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl get pods -o wide
+user@host:~/Projects/k8s/week3$ kubectl get pods -o wide
 NAME                      READY   STATUS        RESTARTS   AGE   IP               NODE           NOMINATED NODE   READINESS GATES
 cpuhog-7c5958c8f5-p8nr4   1/1     Running       0          15s   192.168.83.155   labnp-worker   <none>           <none>
 cpuhog-b69997ffd-njhf9    1/1     Terminating   0          34s   192.168.83.154   labnp-worker   <none>           <none>
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Verify the process inside the container:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ POD=$(kubectl get pod -l app=cpuhog -o jsonpath='{.items[0].metadata.name}')
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectlexec"$POD" -- sh -lc'ps aux | head -n 5; echo; pidof stress || true'
+user@host:~/Projects/k8s/week3$ POD=$(kubectl get pod -l app=cpuhog -o jsonpath='{.items[0].metadata.name}')
+user@host:~/Projects/k8s/week3$ kubectlexec"$POD" -- sh -lc'ps aux | head -n 5; echo; pidof stress || true'
 PID   USER     TIME  COMMAND
     1 root      0:00 stress --cpu 2 --timeout 600
    10 root      0:26 stress --cpu 2 --timeout 600
@@ -174,13 +174,13 @@ PID   USER     TIME  COMMAND
    12 root      0:00 sh -lc ps aux |head -n 5;echo; pidof stress ||true
 
 11 10 1
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Host-level confirmation on `labnp-worker`:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ dockerexec -it labnp-worker bash -lc'top -b -n1 | head -n 25'
+user@host:~/Projects/k8s/week3$ dockerexec -it labnp-worker bash -lc'top -b -n1 | head -n 25'
 top - 15:51:38 up 1 day,  3:27,  0 user,  load average: 4.30, 3.11, 2.87
 Tasks:  71 total,   3 running,  68 sleeping,   0 stopped,   0 zombie
 %Cpu(s): 30.8 us, 30.8 sy,  0.0 ni, 35.9id,  0.0 wa,  0.0 hi,  2.6 si,  0.0 st
@@ -191,7 +191,7 @@ MiB Swap:   2048.0 total,   1307.6 free,    740.4 used.   5622.5 avail Mem
    7441 root      20   0     780    128    128 R  38.9   0.0   0:31.21 stress
    7442 root      20   0     780    128    128 R  38.9   0.0   0:30.87 stress
 ...
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 ---
@@ -199,39 +199,39 @@ polakinio@Polakinio:~/Projects/k8s/week3$
 ### Step 4 - Scale cpuhog to increase CPU pressure
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl scale deploy/cpuhog --replicas=2
+user@host:~/Projects/k8s/week3$ kubectl scale deploy/cpuhog --replicas=2
 deployment.apps/cpuhog scaled
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl get pods -o wide -w
+user@host:~/Projects/k8s/week3$ kubectl get pods -o wide -w
 NAME                      READY   STATUS              RESTARTS   AGE     IP               NODE           NOMINATED NODE   READINESS GATES
 cpuhog-7c5958c8f5-2ftv4   0/1     ContainerCreating   0          6s      <none>           labnp-worker   <none>           <none>
 cpuhog-7c5958c8f5-p8nr4   1/1     Running             0          3m46s   192.168.83.155   labnp-worker   <none>           <none>
 cpuhog-7c5958c8f5-2ftv4   1/1     Running             0          8s      192.168.83.156   labnp-worker   <none>           <none>
-^Cpolakinio@Polakinio:~/Projects/k8s/week3$
+^Cuser@host:~/Projects/k8s/week3$
 ```
 
 Scale to 3:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl scale deploy/cpuhog --replicas=3
+user@host:~/Projects/k8s/week3$ kubectl scale deploy/cpuhog --replicas=3
 deployment.apps/cpuhog scaled
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl get pods -o wide
+user@host:~/Projects/k8s/week3$ kubectl get pods -o wide
 NAME                      READY   STATUS    RESTARTS   AGE    IP               NODE           NOMINATED NODE   READINESS GATES
 cpuhog-7c5958c8f5-2ftv4   1/1     Running   0          28s    192.168.83.156   labnp-worker   <none>           <none>
 cpuhog-7c5958c8f5-2pbw5   1/1     Running   0          9s     192.168.83.157   labnp-worker   <none>           <none>
 cpuhog-7c5958c8f5-p8nr4   1/1     Running   0          4m8s   192.168.83.155   labnp-worker   <none>           <none>
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Host view shows load climbing:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ dockerexec -it labnp-worker bash -lc'uptime; top -b -n1 | head -n 15'
+user@host:~/Projects/k8s/week3$ dockerexec -it labnp-worker bash -lc'uptime; top -b -n1 | head -n 15'
  15:54:55 up 1 day,  3:30,  0 user,  load average: 7.15, 4.31, 3.33
 top - 15:54:56 up 1 day,  3:30,  0 user,  load average: 6.82, 4.29, 3.33
 Tasks:  81 total,   7 running,  74 sleeping,   0 stopped,   0 zombie
 %Cpu(s): 46.2 us, 26.9 sy,  0.0 ni, 26.9id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
 ...
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 ---
@@ -243,15 +243,15 @@ I applied a second deployment named `cpureq` (YAML not shown in output, but beha
 Initial creation:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl apply -f lab14-cpureq.yaml
+user@host:~/Projects/k8s/week3$ kubectl apply -f lab14-cpureq.yaml
 deployment.apps/cpureq created
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 `describe` confirms requests and limits:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl describe pod -l app=cpureq | sed -n'1,120p'
+user@host:~/Projects/k8s/week3$ kubectl describe pod -l app=cpureq | sed -n'1,120p'
 ...
 Args:
   --cpu
@@ -267,16 +267,16 @@ Requests:
 ...
 Node-Selectors:  kubernetes.io/hostname=labnp-worker
 ...
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Scale cpureq to 2, then 3 - still schedules:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl scale deploy/cpureq --replicas=2
+user@host:~/Projects/k8s/week3$ kubectl scale deploy/cpureq --replicas=2
 deployment.apps/cpureq scaled
 ...
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl scale deploy/cpureq --replicas=3
+user@host:~/Projects/k8s/week3$ kubectl scale deploy/cpureq --replicas=3
 deployment.apps/cpureq scaled
 ...
 ```
@@ -284,9 +284,9 @@ deployment.apps/cpureq scaled
 Scale cpureq to 5 - one replica becomes Pending:
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl scale deploy/cpureq --replicas=5
+user@host:~/Projects/k8s/week3$ kubectl scale deploy/cpureq --replicas=5
 deployment.apps/cpureq scaled
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl get pods -o wide
+user@host:~/Projects/k8s/week3$ kubectl get pods -o wide
 NAME                      READY   STATUS    RESTARTS        AGE     IP               NODE           NOMINATED NODE   READINESS GATES
 cpuhog-7c5958c8f5-2ftv4   1/1     Running   0               9m36s   192.168.83.156   labnp-worker   <none>           <none>
 cpuhog-7c5958c8f5-2pbw5   1/1     Running   0               9m17s   192.168.83.157   labnp-worker   <none>           <none>
@@ -296,7 +296,7 @@ cpureq-f9c975c6d-84bk6    0/1     Pending   0               18s     <none>      
 cpureq-f9c975c6d-bt9vm    1/1     Running   0               8m      192.168.83.158   labnp-worker   <none>           <none>
 cpureq-f9c975c6d-dlk6r    1/1     Running   0               3m6s    192.168.83.159   labnp-worker   <none>           <none>
 cpureq-f9c975c6d-rbpdl    1/1     Running   0               2m37s   192.168.83.160   labnp-worker   <none>           <none>
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 ---
@@ -304,7 +304,7 @@ polakinio@Polakinio:~/Projects/k8s/week3$
 ### Key observation - Why the pod is Pending (real scheduler explanation)
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl describe pod cpureq-f9c975c6d-84bk6
+user@host:~/Projects/k8s/week3$ kubectl describe pod cpureq-f9c975c6d-84bk6
 Name:             cpureq-f9c975c6d-84bk6
 Namespace:        lab14
 ...
@@ -317,7 +317,7 @@ Events:
   Type     Reason            Age   From               Message
   ----     ------            ----  ----               -------
   Warning  FailedScheduling  105s  default-scheduler  0/3 nodes are available: 1 Insufficient cpu, 1 node(s) didn't match Pod's node affinity/selector, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/3 nodes are available: 1 No preemption victims foundfor incoming pod, 2 Preemption is not helpfulfor scheduling.
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 Breakdown of the message
@@ -332,7 +332,7 @@ Breakdown of the message
 ### Capacity proof - labnp-worker is at 93 percent CPU requests
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl describe node labnp-worker | egrep -n"Allocated resources|Requests|Limits|cpu|memory" -n -A25
+user@host:~/Projects/k8s/week3$ kubectl describe node labnp-worker | egrep -n"Allocated resources|Requests|Limits|cpu|memory" -n -A25
 ...
 Capacity:
 33:  cpu:                8
@@ -357,7 +357,7 @@ Non-terminated Pods:          (11in total)
 78:  cpu                7500m (93%)  9 (112%)
 79:  memory             448Mi (5%)   896Mi (11%)
 ...
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 This matches the scheduling outcome
@@ -370,13 +370,13 @@ This matches the scheduling outcome
 ### Supporting evidence - events timeline (scale, create, fail scheduling)
 
 ```bash
-polakinio@Polakinio:~/Projects/k8s/week3$ kubectl get events --sort-by=.lastTimestamp |tail -n 50
+user@host:~/Projects/k8s/week3$ kubectl get events --sort-by=.lastTimestamp |tail -n 50
 ...
 117s        Normal    ScalingReplicaSet   deployment/cpureq              Scaled up replicaset cpureq-f9c975c6d to 5 from 3
 116s        Normal    SuccessfulCreate    replicaset/cpureq-f9c975c6d    Created pod: cpureq-f9c975c6d-84bk6
 116s        Normal    SuccessfulCreate    replicaset/cpureq-f9c975c6d    Created pod: cpureq-f9c975c6d-4ckxz
 ...
-polakinio@Polakinio:~/Projects/k8s/week3$
+user@host:~/Projects/k8s/week3$
 ```
 
 ---

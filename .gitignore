@@ -20,3 +20,7 @@ id_ed25519
 
 # Exported lab archives (prefer source markdown in-repo)
 *.zip
+
+# Notion/HTML export artifacts
+notion_exports/
+*_files/
