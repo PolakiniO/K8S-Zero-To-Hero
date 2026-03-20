@@ -148,7 +148,7 @@ PY
 }
 
 build_path_args() {
-  local line kind pattern
+  local kind pattern
   path_args=()
   while IFS='|' read -r kind pattern; do
     [[ -z "${kind:-}" ]] && continue
@@ -168,8 +168,9 @@ build_path_args() {
 }
 
 force="${1:-}"
+print_rewrite_preview
+
 if [[ "$force" != "--yes" ]]; then
-  print_rewrite_preview
   cat <<'PROMPT'
 [rewrite] This will PERMANENTLY rewrite local git history to purge risky artifacts.
 [rewrite] Ensure teammates are coordinated before proceeding.
