@@ -1,0 +1,30 @@
+name: Repo Guardrails
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - work
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run release security scan
+        run: ./scripts/security-release-scan.sh
+
+      - name: Check tracked ignored files
+        run: ./scripts/check-tracked-ignored-files.sh
+
+      - name: Verify markdown links
+        run: ./scripts/verify-markdown-links.sh
+
+      - name: Check history for legacy publication artifacts
+        run: ./scripts/security-history-scan.sh
