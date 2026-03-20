@@ -1,6 +1,6 @@
 # 🚀 Kubernetes Zero to Hero Repository
 
-A practical, interview-focused Kubernetes learning repository built from **Kubernetes Zero to Hero** course notes and expanded into:
+A practical, interview-focused **public open source Kubernetes course** built from **Kubernetes Zero to Hero** course notes and expanded into:
 - structured documentation,
 - hands-on labs,
 - and production-style incident drills.
@@ -98,6 +98,10 @@ Before starting, make sure you have:
 - Add commands plus expected outcomes and failure modes.
 - If you find an error, open an issue or submit a PR with corrected content.
 
+See also:
+- [Contributing Guide](CONTRIBUTING.md)
+- [Security Policy](SECURITY.md)
+- [March 20, 2026 Public Course Security Audit](docs/reviews/public-course-security-audit-2026-03-20.md)
 
 ## Security hygiene checks
 
@@ -109,3 +113,18 @@ Before publishing changes, run:
 
 This blocks accidental inclusion of `.zip`, Notion export artifacts, `.env` files, key material, dumps/logs, and common high-risk secret patterns in tracked files.
 
+
+## 🪪 Licensing
+
+This repository is available under the [MIT License](LICENSE).
+
+## 📌 Publication note
+
+The current working tree is clean for publication, but the repository history still needs a one-time cleanup to fully remove legacy Notion export artifacts. Run:
+
+```bash
+./scripts/security-history-scan.sh
+./scripts/rewrite-history-security-clean.sh --yes
+```
+
+Then force-push rewritten refs and tags from a coordinated maintainer clone.
