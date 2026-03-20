@@ -2,13 +2,15 @@
 set -euo pipefail
 
 # Rewrites git history to remove sensitive artifact classes detected by security scans.
-# Targets include:
-# - *.zip archives
-# - Notion export bundles (ExportBlock-*, notion_exports/, *_files/)
-# - Common secret material and local dump artifacts
+# Targets include forbidden local artifacts and export/document bundles that should not
+# remain in publicly reachable history.
 #
 # Usage (recommended from a fresh mirror clone):
 #   ./scripts/rewrite-history-security-clean.sh [--yes]
+#
+# Environment:
+#   SECURITY_EXTRA_PATH_GLOBS=glob1,glob2      # extend file purge rules
+#   SECURITY_EXTRA_HISTORY_PATH_GLOBS=glob3    # extend history-only purge rules
 #
 # Notes:
 # - Requires `git-filter-repo` (available as a standalone executable, git subcommand,
@@ -18,6 +20,10 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
+
+# shellcheck source=scripts/security-rules.sh
+source "$ROOT_DIR/scripts/security-rules.sh"
+security_load_rules
 
 resolve_filter_repo_cmd() {
   if command -v git-filter-repo >/dev/null 2>&1; then
@@ -63,108 +69,56 @@ if [[ -n "$(git status --porcelain)" ]]; then
   exit 1
 fi
 
-PATH_RULES=$(cat <<'RULES'
-path-glob|*.zip
-path-glob|notion_exports/**
-path-glob|**/*_files/**
-path-glob|**/ExportBlock-*
-path-glob|*.pem
-path-glob|*.key
-path-glob|*.p12
-path-glob|*.pfx
-path|.env
-path-glob|.env.*
-path-glob|**/.env
-path-glob|**/.env.*
-path|id_rsa
-path|id_ed25519
-path-glob|**/id_rsa
-path-glob|**/id_ed25519
-path-glob|*kubeconfig*
-path-glob|*.sqlite
-path-glob|*.db
-path-glob|*.sql
-path-glob|*.dump
-path-glob|*.bak
-path-glob|*.log
-RULES
-)
+build_unique_path_rules() {
+  local item
+  path_rules=()
+  for item in "${SECURITY_PATH_GLOBS[@]}" "${SECURITY_HISTORY_RISK_PATH_GLOBS[@]}"; do
+    [[ -z "$item" ]] && continue
+    if [[ " ${path_rules[*]} " != *" $item "* ]]; then
+      path_rules+=("$item")
+    fi
+  done
+}
 
 print_rewrite_preview() {
-  PATH_RULES="$PATH_RULES" python3 - <<'PY'
-import fnmatch
-import os
-import subprocess
-import sys
+  local path
+  local matches=()
 
-rules = []
-for raw in os.environ["PATH_RULES"].splitlines():
-    raw = raw.strip()
-    if not raw:
-        continue
-    kind, pattern = raw.split("|", 1)
-    rules.append((kind, pattern))
+  build_unique_path_rules
 
-try:
-    proc = subprocess.run(
-        ["git", "rev-list", "--objects", "--all"],
-        check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-except subprocess.CalledProcessError as exc:
-    sys.stderr.write(exc.stderr)
-    raise
+  while IFS= read -r path; do
+    [[ -z "$path" ]] && continue
+    for rule in "${path_rules[@]}"; do
+      if [[ "$path" == $rule ]]; then
+        matches+=("$path")
+        break
+      fi
+    done
+  done < <(git rev-list --objects --all | sed 's/^[^ ]* //g' | sed '/^$/d' | sort -u)
 
-matches = []
-seen = set()
-for line in proc.stdout.splitlines():
-    parts = line.split(" ", 1)
-    if len(parts) != 2:
-        continue
-    path = parts[1].strip()
-    if not path or path in seen:
-        continue
-    for kind, pattern in rules:
-        if kind == "path" and path == pattern:
-            matches.append(path)
-            seen.add(path)
-            break
-        if kind == "path-glob" and fnmatch.fnmatch(path, pattern):
-            matches.append(path)
-            seen.add(path)
-            break
+  echo "[rewrite] Candidate paths that match purge rules across reachable history:"
+  if ((${#matches[@]} == 0)); then
+    echo "[rewrite]   (no matching paths found in current reachable history)"
+  else
+    printf '%s\n' "${matches[@]}" | sort -u | nl -ba | sed 's/^/[rewrite]   /'
+    echo "[rewrite] Total matching paths: $(printf '%s\n' "${matches[@]}" | sort -u | wc -l | tr -d ' ')"
+  fi
 
-print("[rewrite] Candidate paths that match purge rules across reachable history:")
-if not matches:
-    print("[rewrite]   (no matching paths found in current reachable history)")
-    print("[rewrite]   The rewrite will still run in case matching objects exist in refs not surfaced above.")
-else:
-    for idx, path in enumerate(sorted(matches), 1):
-        print(f"[rewrite]   {idx:>3}. {path}")
-    print(f"[rewrite] Total matching paths: {len(matches)}")
-PY
+  echo "[rewrite] Matching commits touching candidate paths:"
+  if ((${#matches[@]} == 0)); then
+    echo "[rewrite]   (no path matches to summarize)"
+  else
+    git log --all --date=short --format='[rewrite]   %h %ad %s' -- "${matches[@]}" | sed -n '1,80p'
+  fi
 }
 
 build_path_args() {
-  local kind pattern
+  local pattern
+  build_unique_path_rules
   path_args=()
-  while IFS='|' read -r kind pattern; do
-    [[ -z "${kind:-}" ]] && continue
-    case "$kind" in
-      path)
-        path_args+=(--path "$pattern")
-        ;;
-      path-glob)
-        path_args+=(--path-glob "$pattern")
-        ;;
-      *)
-        echo "[rewrite] ERROR: unknown path rule kind: $kind" >&2
-        exit 1
-        ;;
-    esac
-  done <<<"$PATH_RULES"
+  for pattern in "${path_rules[@]}"; do
+    path_args+=(--path-glob "$pattern")
+  done
 }
 
 force="${1:-}"

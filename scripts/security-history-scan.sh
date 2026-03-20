@@ -4,27 +4,113 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-echo "[history-scan] Searching git history for forbidden artifacts..."
+# shellcheck source=scripts/security-rules.sh
+source "$ROOT_DIR/scripts/security-rules.sh"
+security_load_rules
 
-zip_hits="$(git log --all --name-only --pretty=format: | rg -n '\.zip$' || true)"
-notion_hits="$(git log --all --name-only --pretty=format: | rg -ni '(^|/)notion_exports(/|$)|_files/|(^|/)ExportBlock-[0-9a-fA-F-]+' || true)"
+fail=0
+warn=0
 
-if [[ -n "$zip_hits" ]]; then
-  echo "[history-scan][WARN] .zip paths found in history:"
-  echo "$zip_hits"
-else
-  echo "[history-scan][OK] No .zip paths found in history"
+mapfile -t all_revs < <(git rev-list --all)
+if ((${#all_revs[@]} == 0)); then
+  echo "[history-scan] No commits found."
+  exit 0
 fi
 
-if [[ -n "$notion_hits" ]]; then
-  echo "[history-scan][WARN] Notion-export-like paths found in history:"
-  echo "$notion_hits"
+echo "[history-scan] Searching git history for forbidden artifacts and risky content..."
+
+gather_history_path_matches() {
+  local label="$1"
+  shift
+  local -a patterns=("$@")
+  local -a history_paths=()
+  local hits=()
+  local pattern path
+
+  while IFS= read -r path; do
+    [[ -n "$path" ]] && history_paths+=("$path")
+  done < <(git log --all --name-only --pretty=format: | sed '/^$/d' | sort -u)
+
+  for path in "${history_paths[@]}"; do
+    for pattern in "${patterns[@]}"; do
+      if [[ "$path" == $pattern ]]; then
+        hits+=("$path")
+        break
+      fi
+    done
+  done
+
+  if ((${#hits[@]})); then
+    echo "[history-scan][WARN] $label:" >&2
+    printf '%s\n' "${hits[@]}" | sort -u >&2
+    warn=1
+  else
+    echo "[history-scan][OK] No $label"
+  fi
+}
+
+gather_history_path_matches "history paths matching forbidden file rules" "${SECURITY_PATH_GLOBS[@]}"
+gather_history_path_matches "history paths matching export/release-risk rules" "${SECURITY_HISTORY_RISK_PATH_GLOBS[@]}"
+
+echo "[history-scan] Checking deleted files that still look sensitive..."
+deleted_hits=()
+mapfile -t deleted_paths < <(git log --all --diff-filter=D --summary --format='' | sed -n 's/^ delete mode [0-9]* //p' | sort -u)
+for path in "${deleted_paths[@]}"; do
+  for pattern in "${SECURITY_PATH_GLOBS[@]}" "${SECURITY_HISTORY_RISK_PATH_GLOBS[@]}"; do
+    if [[ "$path" == $pattern ]]; then
+      deleted_hits+=("$path")
+      break
+    fi
+  done
+done
+if ((${#deleted_hits[@]})); then
+  echo "[history-scan][WARN] Deleted sensitive-looking files still exist in history:" >&2
+  printf '%s\n' "${deleted_hits[@]}" | sort -u >&2
+  warn=1
 else
-  echo "[history-scan][OK] No Notion-export-like paths found in history"
+  echo "[history-scan][OK] No deleted sensitive-looking files matched history rules"
 fi
 
-if [[ -n "$zip_hits" || -n "$notion_hits" ]]; then
-  echo "[history-scan] History rewrite is required to fully remediate legacy artifacts."
+git_grep_history() {
+  local severity="$1"
+  local description="$2"
+  shift 2
+  local -a patterns=("$@")
+  local hits=()
+  local pattern
+
+  for pattern in "${patterns[@]}"; do
+    while IFS= read -r hit; do
+      [[ -n "$hit" ]] && hits+=("$hit")
+    done < <(git grep -n -I -E "$pattern" "${all_revs[@]}" -- || true)
+  done
+
+  if ((${#hits[@]})); then
+    printf '[history-scan][%s] %s\n' "$severity" "$description" >&2
+    printf '%s\n' "${hits[@]}" | sort -u >&2
+    if [[ "$severity" == "FAIL" ]]; then
+      fail=1
+    else
+      warn=1
+    fi
+  else
+    printf '[history-scan][OK] No %s\n' "$description"
+  fi
+}
+
+echo "[history-scan] Checking historical blob contents for secret patterns..."
+git_grep_history "FAIL" "historical high-risk secret patterns found" "${SECURITY_SECRET_REGEXES[@]}"
+
+echo "[history-scan] Checking historical blob contents for public-release hygiene issues..."
+git_grep_history "WARN" "historical hygiene matches found" "${SECURITY_HYGIENE_REGEXES[@]}"
+
+if [[ "$fail" -ne 0 ]]; then
+  echo "[history-scan] FAILED" >&2
+  exit 1
+fi
+
+if [[ "$warn" -ne 0 ]]; then
+  echo "[history-scan] PASSED with warnings (manual review or history rewrite required)" >&2
   exit 2
 fi
 
