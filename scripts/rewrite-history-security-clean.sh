@@ -63,8 +63,113 @@ if [[ -n "$(git status --porcelain)" ]]; then
   exit 1
 fi
 
+PATH_RULES=$(cat <<'RULES'
+path-glob|*.zip
+path-glob|notion_exports/**
+path-glob|**/*_files/**
+path-glob|**/ExportBlock-*
+path-glob|*.pem
+path-glob|*.key
+path-glob|*.p12
+path-glob|*.pfx
+path|.env
+path-glob|.env.*
+path-glob|**/.env
+path-glob|**/.env.*
+path|id_rsa
+path|id_ed25519
+path-glob|**/id_rsa
+path-glob|**/id_ed25519
+path-glob|*kubeconfig*
+path-glob|*.sqlite
+path-glob|*.db
+path-glob|*.sql
+path-glob|*.dump
+path-glob|*.bak
+path-glob|*.log
+RULES
+)
+
+print_rewrite_preview() {
+  PATH_RULES="$PATH_RULES" python3 - <<'PY'
+import fnmatch
+import os
+import subprocess
+import sys
+
+rules = []
+for raw in os.environ["PATH_RULES"].splitlines():
+    raw = raw.strip()
+    if not raw:
+        continue
+    kind, pattern = raw.split("|", 1)
+    rules.append((kind, pattern))
+
+try:
+    proc = subprocess.run(
+        ["git", "rev-list", "--objects", "--all"],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+except subprocess.CalledProcessError as exc:
+    sys.stderr.write(exc.stderr)
+    raise
+
+matches = []
+seen = set()
+for line in proc.stdout.splitlines():
+    parts = line.split(" ", 1)
+    if len(parts) != 2:
+        continue
+    path = parts[1].strip()
+    if not path or path in seen:
+        continue
+    for kind, pattern in rules:
+        if kind == "path" and path == pattern:
+            matches.append(path)
+            seen.add(path)
+            break
+        if kind == "path-glob" and fnmatch.fnmatch(path, pattern):
+            matches.append(path)
+            seen.add(path)
+            break
+
+print("[rewrite] Candidate paths that match purge rules across reachable history:")
+if not matches:
+    print("[rewrite]   (no matching paths found in current reachable history)")
+    print("[rewrite]   The rewrite will still run in case matching objects exist in refs not surfaced above.")
+else:
+    for idx, path in enumerate(sorted(matches), 1):
+        print(f"[rewrite]   {idx:>3}. {path}")
+    print(f"[rewrite] Total matching paths: {len(matches)}")
+PY
+}
+
+build_path_args() {
+  local line kind pattern
+  path_args=()
+  while IFS='|' read -r kind pattern; do
+    [[ -z "${kind:-}" ]] && continue
+    case "$kind" in
+      path)
+        path_args+=(--path "$pattern")
+        ;;
+      path-glob)
+        path_args+=(--path-glob "$pattern")
+        ;;
+      *)
+        echo "[rewrite] ERROR: unknown path rule kind: $kind" >&2
+        exit 1
+        ;;
+    esac
+  done <<<"$PATH_RULES"
+}
+
 force="${1:-}"
 if [[ "$force" != "--yes" ]]; then
+  print_rewrite_preview
   cat <<'PROMPT'
 [rewrite] This will PERMANENTLY rewrite local git history to purge risky artifacts.
 [rewrite] Ensure teammates are coordinated before proceeding.
@@ -78,58 +183,10 @@ git tag "$backup_tag"
 echo "[rewrite] Created backup tag: $backup_tag"
 echo "[rewrite] Using filter command: $FILTER_REPO_CMD"
 
-# Build path globs used by git-filter-repo. Quotes are intentional to preserve globs.
-readarray -t path_args <<'ARGS'
---path-glob
-*.zip
---path-glob
-notion_exports/**
---path-glob
-**/*_files/**
---path-glob
-**/ExportBlock-*
---path-glob
-*.pem
---path-glob
-*.key
---path-glob
-*.p12
---path-glob
-*.pfx
---path
-.env
---path-glob
-.env.*
---path-glob
-**/.env
---path-glob
-**/.env.*
---path
-id_rsa
---path
-id_ed25519
---path-glob
-**/id_rsa
---path-glob
-**/id_ed25519
---path-glob
-*kubeconfig*
---path-glob
-*.sqlite
---path-glob
-*.db
---path-glob
-*.sql
---path-glob
-*.dump
---path-glob
-*.bak
---path-glob
-*.log
-ARGS
+build_path_args
 
 echo "[rewrite] Running git-filter-repo path purge..."
-read -r -a filter_repo_cmd <<<"$FILTER_REPO_CMD"
+IFS=' ' read -r -a filter_repo_cmd <<<"$FILTER_REPO_CMD"
 "${filter_repo_cmd[@]}" --force --invert-paths "${path_args[@]}"
 
 echo "[rewrite] Expiring reflogs and triggering aggressive GC..."
