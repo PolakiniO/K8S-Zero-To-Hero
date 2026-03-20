@@ -33,8 +33,13 @@ echo "[security-scan] Visible untracked files: ${#visible_untracked_files[@]}"
 check_path_globs() {
   local label="$1"
   shift
-  local -a files=("$@")
-  local pattern file matches=()
+  local -a files=()
+  local pattern file
+  local -a matches=()
+
+  if (($#)); then
+    files=("$@")
+  fi
 
   for file in "${files[@]}"; do
     for pattern in "${SECURITY_PATH_GLOBS[@]}"; do
