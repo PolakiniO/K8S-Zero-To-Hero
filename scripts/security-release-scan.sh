@@ -54,8 +54,8 @@ check_path_globs() {
   fi
 }
 
-check_path_globs "tracked" "${tracked_files[@]}"
-check_path_globs "visible untracked" "${visible_untracked_files[@]}"
+check_path_globs "tracked" ${tracked_files[@]+"${tracked_files[@]}"}
+check_path_globs "visible untracked" ${visible_untracked_files[@]+"${visible_untracked_files[@]}"}
 
 text_search() {
   local severity="$1"
