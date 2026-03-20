@@ -80,20 +80,46 @@ fi
 git_grep_history() {
   local severity="$1"
   local description="$2"
-  shift 2
+  local only_historical="${3:-false}"
+  shift 3
   local -a patterns=("$@")
   local hits=()
+  local current_hits=()
+  local filtered_hits=()
   local pattern
+  local hit normalized_hit
+  local -A current_hit_map=()
 
   for pattern in "${patterns[@]}"; do
     while IFS= read -r hit; do
       [[ -n "$hit" ]] && hits+=("$hit")
     done < <(git grep -n -I -E "$pattern" "${all_revs[@]}" -- || true)
+
+    if [[ "$only_historical" == "true" ]]; then
+      while IFS= read -r hit; do
+        [[ -n "$hit" ]] && current_hits+=("$hit")
+      done < <(git grep -n -I -E "$pattern" HEAD -- || true)
+    fi
   done
 
-  if ((${#hits[@]})); then
+  if [[ "$only_historical" == "true" ]] && ((${#current_hits[@]})); then
+    for hit in "${current_hits[@]}"; do
+      current_hit_map["$hit"]=1
+    done
+
+    for hit in "${hits[@]}"; do
+      normalized_hit="${hit#*:}"
+      if [[ -z "${current_hit_map[$normalized_hit]:-}" ]]; then
+        filtered_hits+=("$hit")
+      fi
+    done
+  else
+    filtered_hits=("${hits[@]}")
+  fi
+
+  if ((${#filtered_hits[@]})); then
     printf '[history-scan][%s] %s\n' "$severity" "$description" >&2
-    printf '%s\n' "${hits[@]}" | sort -u >&2
+    printf '%s\n' "${filtered_hits[@]}" | sort -u >&2
     if [[ "$severity" == "FAIL" ]]; then
       fail=1
     else
@@ -105,10 +131,10 @@ git_grep_history() {
 }
 
 echo "[history-scan] Checking historical blob contents for secret patterns..."
-git_grep_history "FAIL" "historical high-risk secret patterns found" "${SECURITY_SECRET_REGEXES[@]}"
+git_grep_history "FAIL" "historical high-risk secret patterns found" "false" "${SECURITY_SECRET_REGEXES[@]}"
 
 echo "[history-scan] Checking historical blob contents for public-release hygiene issues..."
-git_grep_history "WARN" "historical hygiene matches found" "${SECURITY_HYGIENE_REGEXES[@]}"
+git_grep_history "WARN" "historical-only hygiene matches found" "true" "${SECURITY_HYGIENE_REGEXES[@]}"
 
 if [[ "$fail" -ne 0 ]]; then
   echo "[history-scan] FAILED" >&2
