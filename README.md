@@ -124,6 +124,7 @@ The current working tree is clean for publication, but the repository history st
 
 ```bash
 ./scripts/security-history-scan.sh
+brew install git-filter-repo  # or: pipx install git-filter-repo
 ./scripts/rewrite-history-security-clean.sh --yes
 ```
 

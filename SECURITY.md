@@ -50,6 +50,7 @@ To review historical risk:
 If history still contains export bundles or risky artifacts, use the rewrite helper from a coordinated mirror clone:
 
 ```bash
+brew install git-filter-repo  # or: pipx install git-filter-repo
 ./scripts/rewrite-history-security-clean.sh --yes
 ```
 
