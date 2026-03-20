@@ -41,14 +41,16 @@ check_path_globs() {
     files=("$@")
   fi
 
-  for file in "${files[@]}"; do
-    for pattern in "${SECURITY_PATH_GLOBS[@]}"; do
-      if [[ "$file" == $pattern ]]; then
-        matches+=("$file")
-        break
-      fi
+  if ((${#files[@]})); then
+    for file in "${files[@]}"; do
+      for pattern in "${SECURITY_PATH_GLOBS[@]}"; do
+        if [[ "$file" == $pattern ]]; then
+          matches+=("$file")
+          break
+        fi
+      done
     done
-  done
+  fi
 
   if ((${#matches[@]})); then
     echo "[security-scan][FAIL] $label files matching forbidden path rules:" >&2
