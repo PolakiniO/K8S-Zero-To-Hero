@@ -3,7 +3,8 @@ set -euo pipefail
 
 # Rewrites git history to remove sensitive artifact classes detected by security scans.
 # Targets include forbidden local artifacts and export/document bundles that should not
-# remain in publicly reachable history.
+# remain in publicly reachable history. This helper does not redact in-file content such
+# as private IPs or workstation prompts inside retained docs; use a content rewrite for that.
 #
 # Usage (recommended from a fresh mirror clone):
 #   ./scripts/rewrite-history-security-clean.sh [--yes]
@@ -166,5 +167,6 @@ git gc --prune=now --aggressive
 
 echo "[rewrite] Rewrite complete. Next steps:"
 echo "  1) Re-run: bash scripts/security-history-scan.sh"
-echo "  2) Push rewritten refs: git push --force --all && git push --force --tags"
-echo "  3) Invalidate old clones/forks based on previous history"
+echo "  2) If history-scan still reports hygiene-only content matches, perform a content rewrite or edit/remove the affected files and rewrite again"
+echo "  3) Push rewritten refs: git push --force --all && git push --force --tags"
+echo "  4) Invalidate old clones/forks based on previous history"
