@@ -1,4 +1,6 @@
-# K8S Zero to Hero [![License](https://img.shields.io/github/license/PolakiniO/K8S-Zero-To-Hero)](LICENSE) [![Platform](https://img.shields.io/badge/platform-Kubernetes-326CE5)](#) [![Focus](https://img.shields.io/badge/focus-Hands--On-success)](#) [![Status](https://img.shields.io/badge/status-public--ready-brightgreen)](#)
+# K8S Zero to Hero
+
+[![License](https://img.shields.io/github/license/PolakiniO/K8S-Zero-To-Hero)](LICENSE) [![Platform](https://img.shields.io/badge/platform-Kubernetes-326CE5)](#) [![Focus](https://img.shields.io/badge/focus-Hands--On-success)](#) [![Status](https://img.shields.io/badge/status-public--ready-brightgreen)](#)
 
 ```text
     __ ______ _____    _____                       ______            __  __              
