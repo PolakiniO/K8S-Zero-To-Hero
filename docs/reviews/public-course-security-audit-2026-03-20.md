@@ -55,7 +55,7 @@ Before this change set, the repository did not include:
 
 1. Install hooks locally with `./scripts/install-githooks.sh`.
 2. Run all repository checks before each push.
-3. Rewrite history with `./scripts/rewrite-history-security-clean.sh --yes` from a fresh mirror clone.
+3. Install `git-filter-repo` (`brew install git-filter-repo` or `pipx install git-filter-repo`), then rewrite history with `./scripts/rewrite-history-security-clean.sh --yes` from a fresh mirror clone.
 4. Force-push rewritten refs and tags.
 5. Ask collaborators to reclone and invalidate old forks if needed.
 6. Enable branch protection and required status checks in GitHub settings.

@@ -11,16 +11,50 @@ set -euo pipefail
 #   ./scripts/rewrite-history-security-clean.sh [--yes]
 #
 # Notes:
-# - Requires `git-filter-repo`.
+# - Requires `git-filter-repo` (available as a standalone executable, git subcommand,
+#   or Python module entrypoint).
 # - Creates a safety backup tag before rewrite.
 # - Must be followed by a force push.
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-if ! command -v git-filter-repo >/dev/null 2>&1; then
-  echo "[rewrite] ERROR: git-filter-repo is required but not installed." >&2
-  echo "[rewrite] Install: https://github.com/newren/git-filter-repo" >&2
+resolve_filter_repo_cmd() {
+  if command -v git-filter-repo >/dev/null 2>&1; then
+    printf 'git-filter-repo\n'
+    return 0
+  fi
+
+  if git filter-repo --help >/dev/null 2>&1; then
+    printf 'git filter-repo\n'
+    return 0
+  fi
+
+  if command -v python3 >/dev/null 2>&1 && python3 - <<'PY' >/dev/null 2>&1
+import importlib.util
+raise SystemExit(0 if importlib.util.find_spec("git_filter_repo") else 1)
+PY
+  then
+    printf 'python3 -m git_filter_repo\n'
+    return 0
+  fi
+
+  return 1
+}
+
+print_install_hint() {
+  cat >&2 <<'HINT'
+[rewrite] ERROR: git-filter-repo is required but was not found.
+[rewrite] Install one of the following, then re-run this script:
+[rewrite]   macOS (Homebrew): brew install git-filter-repo
+[rewrite]   pipx:            pipx install git-filter-repo
+[rewrite]   pip (user):      python3 -m pip install --user git-filter-repo
+[rewrite]   docs:            https://github.com/newren/git-filter-repo
+HINT
+}
+
+if ! FILTER_REPO_CMD="$(resolve_filter_repo_cmd)"; then
+  print_install_hint
   exit 1
 fi
 
@@ -42,6 +76,7 @@ fi
 backup_tag="pre-security-rewrite-$(date +%Y%m%d-%H%M%S)"
 git tag "$backup_tag"
 echo "[rewrite] Created backup tag: $backup_tag"
+echo "[rewrite] Using filter command: $FILTER_REPO_CMD"
 
 # Build path globs used by git-filter-repo. Quotes are intentional to preserve globs.
 readarray -t path_args <<'ARGS'
@@ -93,9 +128,9 @@ id_ed25519
 *.log
 ARGS
 
-
 echo "[rewrite] Running git-filter-repo path purge..."
-git filter-repo --force --invert-paths "${path_args[@]}"
+read -r -a filter_repo_cmd <<<"$FILTER_REPO_CMD"
+"${filter_repo_cmd[@]}" --force --invert-paths "${path_args[@]}"
 
 echo "[rewrite] Expiring reflogs and triggering aggressive GC..."
 git reflog expire --expire=now --all
