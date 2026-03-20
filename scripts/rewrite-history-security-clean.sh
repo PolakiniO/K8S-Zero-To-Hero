@@ -86,9 +86,11 @@ build_unique_path_rules() {
       existing_rules=()
     fi
 
-    for existing in "${existing_rules[@]}"; do
-      [[ "$existing" == "$item" ]] && continue 2
-    done
+    if ((${#existing_rules[@]})); then
+      for existing in "${existing_rules[@]}"; do
+        [[ "$existing" == "$item" ]] && continue 2
+      done
+    fi
 
     path_rules+=("$item")
   done
