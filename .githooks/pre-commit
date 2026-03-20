@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+echo "[pre-commit] Running repository safety checks..."
+./scripts/security-release-scan.sh
+./scripts/check-tracked-ignored-files.sh
+./scripts/verify-markdown-links.sh
