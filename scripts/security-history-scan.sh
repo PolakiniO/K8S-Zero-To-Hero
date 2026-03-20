@@ -11,8 +11,11 @@ security_load_rules
 fail=0
 warn=0
 
-mapfile -t all_revs < <(git rev-list --all)
-if ((${#all_revs[@]} == 0)); then
+all_revs=()
+while IFS= read -r rev; do
+  [[ -n "$rev" ]] && all_revs+=("$rev")
+done < <(git rev-list --all)
+if (( ${#all_revs[@]} == 0 )); then
   echo "[history-scan] No commits found."
   exit 0
 fi
@@ -54,7 +57,10 @@ gather_history_path_matches "history paths matching export/release-risk rules" "
 
 echo "[history-scan] Checking deleted files that still look sensitive..."
 deleted_hits=()
-mapfile -t deleted_paths < <(git log --all --diff-filter=D --summary --format='' | sed -n 's/^ delete mode [0-9]* //p' | sort -u)
+deleted_paths=()
+while IFS= read -r path; do
+  [[ -n "$path" ]] && deleted_paths+=("$path")
+done < <(git log --all --diff-filter=D --summary --format='' | sed -n 's/^ delete mode [0-9]* //p' | sort -u)
 for path in "${deleted_paths[@]}"; do
   for pattern in "${SECURITY_PATH_GLOBS[@]}" "${SECURITY_HISTORY_RISK_PATH_GLOBS[@]}"; do
     if [[ "$path" == $pattern ]]; then
