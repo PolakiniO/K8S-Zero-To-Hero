@@ -19,6 +19,50 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+PATH_ARGS=(
+  --path-glob '*.zip'
+  --path-glob 'notion_exports/**'
+  --path-glob '**/*_files/**'
+  --path-glob '**/ExportBlock-*'
+  --path-glob '*.pem'
+  --path-glob '*.key'
+  --path-glob '*.p12'
+  --path-glob '*.pfx'
+  --path '.env'
+  --path-glob '.env.*'
+  --path-glob '**/.env'
+  --path-glob '**/.env.*'
+  --path 'id_rsa'
+  --path 'id_ed25519'
+  --path-glob '**/id_rsa'
+  --path-glob '**/id_ed25519'
+  --path-glob '*kubeconfig*'
+  --path-glob '*.sqlite'
+  --path-glob '*.db'
+  --path-glob '*.sql'
+  --path-glob '*.dump'
+  --path-glob '*.bak'
+  --path-glob '*.log'
+)
+
+print_purge_summary() {
+  cat <<'SUMMARY'
+[rewrite] The rewrite will delete these path classes from ALL local commits:
+[rewrite]   Archives and export bundles
+[rewrite]     - *.zip
+[rewrite]     - notion_exports/**
+[rewrite]     - **/*_files/**
+[rewrite]     - **/ExportBlock-*
+[rewrite]   Secret and credential material
+[rewrite]     - *.pem, *.key, *.p12, *.pfx
+[rewrite]     - .env, .env.*, **/.env, **/.env.*
+[rewrite]     - id_rsa, id_ed25519, **/id_rsa, **/id_ed25519
+[rewrite]     - *kubeconfig*
+[rewrite]   Database, dump, backup, and log artifacts
+[rewrite]     - *.sqlite, *.db, *.sql, *.dump, *.bak, *.log
+SUMMARY
+}
+
 resolve_filter_repo_cmd() {
   if command -v git-filter-repo >/dev/null 2>&1; then
     printf 'git-filter-repo\n'
@@ -65,6 +109,7 @@ fi
 
 force="${1:-}"
 if [[ "$force" != "--yes" ]]; then
+  print_purge_summary
   cat <<'PROMPT'
 [rewrite] This will PERMANENTLY rewrite local git history to purge risky artifacts.
 [rewrite] Ensure teammates are coordinated before proceeding.
@@ -73,64 +118,16 @@ PROMPT
   exit 2
 fi
 
+print_purge_summary
+
 backup_tag="pre-security-rewrite-$(date +%Y%m%d-%H%M%S)"
 git tag "$backup_tag"
 echo "[rewrite] Created backup tag: $backup_tag"
 echo "[rewrite] Using filter command: $FILTER_REPO_CMD"
 
-# Build path globs used by git-filter-repo. Quotes are intentional to preserve globs.
-readarray -t path_args <<'ARGS'
---path-glob
-*.zip
---path-glob
-notion_exports/**
---path-glob
-**/*_files/**
---path-glob
-**/ExportBlock-*
---path-glob
-*.pem
---path-glob
-*.key
---path-glob
-*.p12
---path-glob
-*.pfx
---path
-.env
---path-glob
-.env.*
---path-glob
-**/.env
---path-glob
-**/.env.*
---path
-id_rsa
---path
-id_ed25519
---path-glob
-**/id_rsa
---path-glob
-**/id_ed25519
---path-glob
-*kubeconfig*
---path-glob
-*.sqlite
---path-glob
-*.db
---path-glob
-*.sql
---path-glob
-*.dump
---path-glob
-*.bak
---path-glob
-*.log
-ARGS
-
 echo "[rewrite] Running git-filter-repo path purge..."
 read -r -a filter_repo_cmd <<<"$FILTER_REPO_CMD"
-"${filter_repo_cmd[@]}" --force --invert-paths "${path_args[@]}"
+"${filter_repo_cmd[@]}" --force --invert-paths "${PATH_ARGS[@]}"
 
 echo "[rewrite] Expiring reflogs and triggering aggressive GC..."
 git reflog expire --expire=now --all
