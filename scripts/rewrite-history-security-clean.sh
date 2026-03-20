@@ -25,6 +25,9 @@ cd "$ROOT_DIR"
 source "$ROOT_DIR/scripts/security-rules.sh"
 security_load_rules
 
+path_rules=()
+path_args=()
+
 resolve_filter_repo_cmd() {
   if command -v git-filter-repo >/dev/null 2>&1; then
     printf 'git-filter-repo\n'
@@ -70,13 +73,24 @@ if [[ -n "$(git status --porcelain)" ]]; then
 fi
 
 build_unique_path_rules() {
-  local item
+  local item existing
+  local -a existing_rules=()
+
   path_rules=()
   for item in "${SECURITY_PATH_GLOBS[@]}" "${SECURITY_HISTORY_RISK_PATH_GLOBS[@]}"; do
     [[ -z "$item" ]] && continue
-    if [[ " ${path_rules[*]} " != *" $item "* ]]; then
-      path_rules+=("$item")
+
+    if ((${#path_rules[@]})); then
+      existing_rules=("${path_rules[@]}")
+    else
+      existing_rules=()
     fi
+
+    for existing in "${existing_rules[@]}"; do
+      [[ "$existing" == "$item" ]] && continue 2
+    done
+
+    path_rules+=("$item")
   done
 }
 
