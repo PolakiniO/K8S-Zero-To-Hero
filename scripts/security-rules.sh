@@ -71,6 +71,17 @@ SECURITY_HYGIENE_REGEXES=(
   '(POSTGRES_PASSWORD|MYSQL_PASSWORD|MONGO_INITDB_ROOT_PASSWORD|DB_PASSWORD)[[:space:]]*[:=][[:space:]]*["'"'"']?(password|changeme|admin123|secret123)["'"'"']?'
 )
 
+# Blocked dependency identifiers for supply-chain risk prevention.
+# Keep entries lowercase and scoped to package names (not arbitrary text).
+SECURITY_BLOCKED_DEPENDENCY_REGEXES=(
+  '(^|[^A-Za-z0-9_.-])litellm([^A-Za-z0-9_.-]|$)'
+  '(^|[^A-Za-z0-9_.-])event-stream([^A-Za-z0-9_.-]|$)'
+  '(^|[^A-Za-z0-9_.-])ua-parser-js([^A-Za-z0-9_.-]|$)'
+  '(^|[^A-Za-z0-9_.-])node-ipc([^A-Za-z0-9_.-]|$)'
+  '(^|[^A-Za-z0-9_.-])coa([^A-Za-z0-9_.-]|$)'
+  '(^|[^A-Za-z0-9_.-])rc([^A-Za-z0-9_.-]|$)'
+)
+
 
 security_extend_array_from_env() {
   local env_name="$1"
@@ -95,4 +106,5 @@ security_load_rules() {
   security_extend_array_from_env SECURITY_EXTRA_HISTORY_PATH_GLOBS SECURITY_HISTORY_RISK_PATH_GLOBS
   security_extend_array_from_env SECURITY_EXTRA_SECRET_REGEXES SECURITY_SECRET_REGEXES
   security_extend_array_from_env SECURITY_EXTRA_HYGIENE_REGEXES SECURITY_HYGIENE_REGEXES
+  security_extend_array_from_env SECURITY_EXTRA_BLOCKED_DEP_REGEXES SECURITY_BLOCKED_DEPENDENCY_REGEXES
 }
