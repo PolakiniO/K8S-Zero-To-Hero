@@ -64,6 +64,40 @@ check_path_globs() {
 check_path_globs "tracked" ${tracked_files[@]+"${tracked_files[@]}"}
 check_path_globs "visible untracked" ${visible_untracked_files[@]+"${visible_untracked_files[@]}"}
 
+dependency_manifest_globs=(
+  'requirements*.txt'
+  'constraints*.txt'
+  'pyproject.toml'
+  'Pipfile'
+  'Pipfile.lock'
+  'poetry.lock'
+  'setup.py'
+  'setup.cfg'
+  'package.json'
+  'package-lock.json'
+  'npm-shrinkwrap.json'
+  'pnpm-lock.yaml'
+  'yarn.lock'
+  'go.mod'
+  'go.sum'
+  'Cargo.toml'
+  'Cargo.lock'
+  'Gemfile'
+  'Gemfile.lock'
+  'composer.json'
+  'composer.lock'
+)
+
+dependency_manifest_files=()
+for file in "${all_visible_files[@]}"; do
+  for pattern in "${dependency_manifest_globs[@]}"; do
+    if [[ "$file" == $pattern || "$file" == */$pattern ]]; then
+      dependency_manifest_files+=("$file")
+      break
+    fi
+  done
+done
+
 text_search() {
   local severity="$1"
   local description="$2"
@@ -94,11 +128,49 @@ text_search() {
   fi
 }
 
+text_search_in_files() {
+  local severity="$1"
+  local description="$2"
+  shift 2
+  local files_var_name="$1"
+  shift
+  local -n files_ref="$files_var_name"
+  local -a patterns=("$@")
+  local hits=()
+  local pattern
+
+  ((${#files_ref[@]})) || {
+    printf '[security-scan][OK] No files to scan for %s\n' "$description"
+    return 0
+  }
+
+  for pattern in "${patterns[@]}"; do
+    while IFS= read -r hit; do
+      [[ -n "$hit" ]] && hits+=("$hit")
+    done < <(rg -n -I --hidden --no-ignore -S -i -e "$pattern" -- "${files_ref[@]}" || true)
+  done
+
+  if ((${#hits[@]})); then
+    printf '[security-scan][%s] %s\n' "$severity" "$description" >&2
+    printf '%s\n' "${hits[@]}" | sort -u >&2
+    if [[ "$severity" == "FAIL" ]]; then
+      fail=1
+    else
+      warn=1
+    fi
+  else
+    printf '[security-scan][OK] No %s\n' "$description"
+  fi
+}
+
 echo "[security-scan] Running high-signal secret checks in tracked and visible untracked files..."
 text_search "FAIL" "high-risk secret patterns found" "${SECURITY_SECRET_REGEXES[@]}"
 
 echo "[security-scan] Running public-release hygiene heuristics..."
 text_search "WARN" "review-worthy hygiene matches found" "${SECURITY_HYGIENE_REGEXES[@]}"
+
+echo "[security-scan] Checking dependency manifests for blocked packages..."
+text_search_in_files "FAIL" "blocked dependency identifiers found in dependency manifests" dependency_manifest_files "${SECURITY_BLOCKED_DEPENDENCY_REGEXES[@]}"
 
 if [[ "$fail" -ne 0 ]]; then
   echo "[security-scan] FAILED" >&2
