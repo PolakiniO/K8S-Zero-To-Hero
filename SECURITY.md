@@ -4,7 +4,7 @@ This repository is intended to be a **public, educational Kubernetes course**. T
 
 ## Supported security posture
 
-The current branch is considered publishable only when all of the following are true:
+This repository is considered safe for ongoing public use only when all of the following are true:
 
 - `./scripts/security-release-scan.sh` passes.
 - `./scripts/check-tracked-ignored-files.sh` passes.
@@ -48,7 +48,7 @@ To review historical risk:
 ./scripts/security-history-scan.sh
 ```
 
-If history still contains export bundles or risky artifacts, do not publish the repository yet. Coordinate a history rewrite first and do not use `git push --mirror` during public release.
+If history still contains export bundles or risky artifacts, stop further public updates until the issue is fixed. Coordinate a history rewrite first and do not use `git push --mirror` during remediation.
 
 If a rewrite is required, use the rewrite helper from a coordinated clone:
 

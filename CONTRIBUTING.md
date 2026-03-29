@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping turn **Kubernetes Zero to Hero** into a safer public open source course.
+Thanks for helping improve **Kubernetes Zero to Hero** as a public open source learning repo.
 
 ## Contribution goals
 
@@ -10,7 +10,7 @@ We welcome contributions that improve:
 - reproducible lab steps,
 - learner experience,
 - accessibility and formatting,
-- security hygiene for public publication.
+- security hygiene for a public repo.
 
 ## Local checks before every commit
 
