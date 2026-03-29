@@ -66,9 +66,21 @@ SECURITY_SECRET_REGEXES=(
 # Lower-signal public-release hygiene issues. These warn for human review.
 SECURITY_HYGIENE_REGEXES=(
   '(10\.([0-9]{1,3}\.){2}[0-9]{1,3}|172\.(1[6-9]|2[0-9]|3[01])\.([0-9]{1,3}\.)[0-9]{1,3}|192\.168\.([0-9]{1,3}\.)[0-9]{1,3})'
-  '[A-Za-z0-9.-]+\.(internal|corp|local)'
+  '[A-Za-z0-9.-]+\.(internal|corp)'
   'user@host:|~/Projects/|/Users/|C:\\Users\\|/home/[A-Za-z0-9._-]+'
   '(POSTGRES_PASSWORD|MYSQL_PASSWORD|MONGO_INITDB_ROOT_PASSWORD|DB_PASSWORD)[[:space:]]*[:=][[:space:]]*["'"'"']?(password|changeme|admin123|secret123)["'"'"']?'
+)
+
+# Known-safe educational or policy examples that should not create warning-only noise.
+SECURITY_HYGIENE_IGNORE_REGEXES=(
+  '^([0-9a-f]{40}:)?SECURITY\.md:[0-9]+:'
+  '^([0-9a-f]{40}:)?scripts/security-rules\.sh:[0-9]+:'
+  '^([0-9a-f]{40}:)?\.env\.example:[0-9]+:CAPSTONE_HOST=example\.local$'
+  '^([0-9a-f]{40}:)?Labs/K8S-Lab-Capstone/.+:[0-9]+:.*(capstone\.local|localhost|127\.0\.0\.1)'
+  '^([0-9a-f]{40}:)?Labs/K8S-Lab-Week2/kind-calico\.yaml:[0-9]+:.*192\.168\.0\.0/16'
+  '^([0-9a-f]{40}:)?LabPack/week2/lab9/kind-calico\.yaml:[0-9]+:.*192\.168\.0\.0/16'
+  '^([0-9a-f]{40}:)?[^:]+\.(md|txt):[0-9]+:.*(user@host:|polakinio@Polakinio:~/Projects/k8s/)'
+  '^([0-9a-f]{40}:)?[^:]+\.(md|txt|yaml|yml):[0-9]+:.*10\.(96|244)\.'
 )
 
 # Blocked dependency identifiers for supply-chain risk prevention.
@@ -106,5 +118,6 @@ security_load_rules() {
   security_extend_array_from_env SECURITY_EXTRA_HISTORY_PATH_GLOBS SECURITY_HISTORY_RISK_PATH_GLOBS
   security_extend_array_from_env SECURITY_EXTRA_SECRET_REGEXES SECURITY_SECRET_REGEXES
   security_extend_array_from_env SECURITY_EXTRA_HYGIENE_REGEXES SECURITY_HYGIENE_REGEXES
+  security_extend_array_from_env SECURITY_EXTRA_HYGIENE_IGNORE_REGEXES SECURITY_HYGIENE_IGNORE_REGEXES
   security_extend_array_from_env SECURITY_EXTRA_BLOCKED_DEP_REGEXES SECURITY_BLOCKED_DEPENDENCY_REGEXES
 }

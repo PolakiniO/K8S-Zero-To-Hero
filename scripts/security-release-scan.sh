@@ -110,19 +110,38 @@ text_search() {
   local -a patterns=("$@")
   local -a files=("${all_visible_files[@]}")
   local hits=()
+  local filtered_hits=()
   local pattern
+  local hit ignore_pattern ignored
 
   ((${#files[@]})) || return 0
 
   for pattern in "${patterns[@]}"; do
     while IFS= read -r hit; do
       [[ -n "$hit" ]] && hits+=("$hit")
-    done < <(rg -n -I --hidden --no-ignore -S -e "$pattern" -- "${files[@]}" || true)
+    done < <(rg -n -I --with-filename --hidden --no-ignore -S -e "$pattern" -- "${files[@]}" || true)
   done
 
-  if ((${#hits[@]})); then
+  if [[ "$severity" != "FAIL" ]] && ((${#SECURITY_HYGIENE_IGNORE_REGEXES[@]})); then
+    for hit in "${hits[@]}"; do
+      ignored=0
+      for ignore_pattern in "${SECURITY_HYGIENE_IGNORE_REGEXES[@]}"; do
+        if [[ "$hit" =~ $ignore_pattern ]]; then
+          ignored=1
+          break
+        fi
+      done
+      if [[ "$ignored" -eq 0 ]]; then
+        filtered_hits+=("$hit")
+      fi
+    done
+  else
+    filtered_hits=("${hits[@]}")
+  fi
+
+  if ((${#filtered_hits[@]})); then
     printf '[security-scan][%s] %s\n' "$severity" "$description" >&2
-    printf '%s\n' "${hits[@]}" | sort -u >&2
+    printf '%s\n' "${filtered_hits[@]}" | sort -u >&2
     if [[ "$severity" == "FAIL" ]]; then
       fail=1
     else
@@ -152,7 +171,7 @@ text_search_in_files() {
   for pattern in "${patterns[@]}"; do
     while IFS= read -r hit; do
       [[ -n "$hit" ]] && hits+=("$hit")
-    done < <(rg -n -I --hidden --no-ignore -S -i -e "$pattern" -- "${files_ref[@]}" || true)
+    done < <(rg -n -I --with-filename --hidden --no-ignore -S -i -e "$pattern" -- "${files_ref[@]}" || true)
   done
 
   if ((${#hits[@]})); then

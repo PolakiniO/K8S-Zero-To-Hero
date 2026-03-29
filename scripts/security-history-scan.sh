@@ -97,7 +97,7 @@ git_grep_history() {
   local current_hits=()
   local filtered_hits=()
   local pattern
-  local hit normalized_hit
+  local hit normalized_hit ignore_pattern ignored
   local -A current_hit_map=()
 
   for pattern in "${patterns[@]}"; do
@@ -127,6 +127,23 @@ git_grep_history() {
     filtered_hits=("${hits[@]}")
   fi
 
+  if [[ "$severity" != "FAIL" ]] && ((${#SECURITY_HYGIENE_IGNORE_REGEXES[@]})); then
+    local -a warning_hits=()
+    for hit in "${filtered_hits[@]}"; do
+      ignored=0
+      for ignore_pattern in "${SECURITY_HYGIENE_IGNORE_REGEXES[@]}"; do
+        if [[ "$hit" =~ $ignore_pattern ]]; then
+          ignored=1
+          break
+        fi
+      done
+      if [[ "$ignored" -eq 0 ]]; then
+        warning_hits+=("$hit")
+      fi
+    done
+    filtered_hits=("${warning_hits[@]}")
+  fi
+
   if ((${#filtered_hits[@]})); then
     printf '[history-scan][%s] %s\n' "$severity" "$description" >&2
     printf '%s\n' "${filtered_hits[@]}" | sort -u >&2
@@ -152,7 +169,7 @@ if [[ "$fail" -ne 0 ]]; then
 fi
 
 if [[ "$warn" -ne 0 ]]; then
-  echo "[history-scan] PASSED with warnings (manual review or history rewrite required)" >&2
+  echo "[history-scan] PASSED with warnings (manual review recommended)" >&2
   exit 2
 fi
 
