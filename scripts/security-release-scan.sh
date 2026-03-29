@@ -43,6 +43,11 @@ check_path_globs() {
 
   if ((${#files[@]})); then
     for file in "${files[@]}"; do
+      case "$file" in
+        .env.example|*/.env.example)
+          continue
+          ;;
+      esac
       for pattern in "${SECURITY_PATH_GLOBS[@]}"; do
         if [[ "$file" == $pattern ]]; then
           matches+=("$file")

@@ -12,7 +12,7 @@ Week 3 introduces production-style incident response: node failure, memory press
 ## Folder structure
 - `lab11-*.yaml` - node failure and recovery scenarios
 - `lab12-memory-pressure.yaml` - memory pressure and eviction simulation
-- `lab13-badca.crt` - certificate trust break simulation asset
+- `lab13-badca.example.crt` - certificate trust break simulation asset
 - `lab14-*.yaml` - CPU exhaustion and scheduling behavior
 - `lab15-stack.yaml` - multi-service troubleshooting stack
 - `Lab *.md` files - lab narratives and troubleshooting flows

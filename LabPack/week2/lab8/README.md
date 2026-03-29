@@ -36,7 +36,7 @@ kubectl delete pv demo-pv --ignore-not-found
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$ kubectl delete pod pvc-demo --ignore-not-found
+$ kubectl delete pod pvc-demo --ignore-not-found
 kubectl delete pvc demo-pvc --ignore-not-found
 kubectl delete pv demo-pv --ignore-not-found
 ```
@@ -52,15 +52,15 @@ kubectl describe pvc demo-pvc
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$touch lab8-pvc.yaml
-user@host:~/Projects/k8s/week2$ kubectl apply -f lab8-pvc.yaml
+$ touch lab8-pvc.yaml
+$ kubectl apply -f lab8-pvc.yaml
 persistentvolumeclaim/demo-pvc created
 
-user@host:~/Projects/k8s/week2$ kubectl get pvc
+$ kubectl get pvc
 NAME       STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
 demo-pvc   Pending                                      standard       <unset>                 7s
 
-user@host:~/Projects/k8s/week2$ kubectl describe pvc demo-pvc
+$ kubectl describe pvc demo-pvc
 Name:          demo-pvc
 Namespace:     week2
 StorageClass:  standard
@@ -88,7 +88,7 @@ kubectl get pv
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$ kubectl get pv
+$ kubectl get pv
 No resources found
 ```
 
@@ -102,12 +102,12 @@ kubectl get pod pvc-demo
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$touch lab8-pod.yaml
+$ touch lab8-pod.yaml
 
-user@host:~/Projects/k8s/week2$ kubectl apply -f lab8-pod.yaml
+$ kubectl apply -f lab8-pod.yaml
 pod/pvc-demo created
 
-user@host:~/Projects/k8s/week2$ kubectl get pod pvc-demo
+$ kubectl get pod pvc-demo
 NAME       READY   STATUS    RESTARTS   AGE
 pvc-demo   1/1     Running   0          11s
 ```
@@ -123,17 +123,17 @@ kubectl get pvc
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$touch lab8-pv.yaml
+$ touch lab8-pv.yaml
 
-user@host:~/Projects/k8s/week2$ kubectl apply -f lab8-pv.yaml
+$ kubectl apply -f lab8-pv.yaml
 persistentvolume/demo-pv created
 
-user@host:~/Projects/k8s/week2$ kubectl get pv
+$ kubectl get pv
 NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM            STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
 demo-pv                                    1Gi        RWO            Retain           Available                                   <unset>                          6s
 pvc-f14c6230-9af5-4d0c-b45f-adf4d845449a   1Gi        RWO            Delete           Bound       week2/demo-pvc   standard       <unset>                          114s
 
-user@host:~/Projects/k8s/week2$ kubectl get pvc
+$ kubectl get pvc
 NAME       STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
 demo-pvc   Bound    pvc-f14c6230-9af5-4d0c-b45f-adf4d845449a   1Gi        RWO            standard       <unset>                 4m
 ```
@@ -149,13 +149,13 @@ kubectl describe pod pvc-demo
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$ kubectl get pods
+$ kubectl get pods
 NAME                   READY   STATUS    RESTARTS   AGE
 pvc-demo               1/1     Running   0          2m14s
 web-686b75b84c-ft259   1/1     Running   0          13m
 web-686b75b84c-vc7jl   1/1     Running   0          13m
 
-user@host:~/Projects/k8s/week2$ kubectl describe pvc demo-pvc
+$ kubectl describe pvc demo-pvc
 ...
 Status:        Bound
 Used By:       pvc-demo
@@ -163,7 +163,7 @@ Used By:       pvc-demo
 Events:
   ProvisioningSucceeded  Successfully provisioned volume pvc-f14c6230...
 
-user@host:~/Projects/k8s/week2$ kubectl describe pod pvc-demo
+$ kubectl describe pod pvc-demo
 ...
 Mounts:
   /data from storage (rw)

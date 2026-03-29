@@ -1,29 +1,46 @@
 # Secrets and local credential material
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 *.p12
 *.pfx
+*.jks
+*.cer
+*.der
+*.ovpn
+tls.crt
+tls.key
 id_rsa
 id_ed25519
 *kubeconfig*
-*.ovpn
+.kube/
+.aws/
+.azure/
+.gcp/
+.docker/config.json
 
-# Local data/log dumps
+# Local data, state, and dumps
 *.sqlite
 *.db
 *.log
 *.sql
 *.dump
 *.bak
+*.tfstate
+*.tfstate.*
+.terraform/
+coverage/
+.pytest_cache/
 
-# Exported lab archives (prefer source markdown in-repo)
+# Editor and OS clutter
+.DS_Store
+.idea/
+.vscode/
+
+# Exported lab archives and workspace artifacts
 *.zip
-
-# Notion/HTML export artifacts
 notion_exports/
 *_files/
-
-# Explicit block for common Notion export bundles
 ExportBlock-*

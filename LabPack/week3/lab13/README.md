@@ -6,7 +6,7 @@ Intentionally break kubeconfig trust by swapping cluster CA with a bad CA file, 
 ## Setup / Resources
 - Context/cluster: `kind-labnp`
 - Namespace context during checks: `week3`
-- Artifact: `lab13-badca.crt`
+- Artifact: `lab13-badca.example.crt`
 - Components checked: node readiness, kube-apiserver endpoints (`/readyz`, `/livez`)
 
 ## Steps performed (high level narrative)
@@ -71,4 +71,4 @@ kubectl get --raw='/livez?verbose'
 
 ## Manifests used
 - No Kubernetes YAML manifest was applied in this lab.
-- Supporting certificate artifact: [`lab13-badca.crt`](lab13-badca.crt)
+- Supporting certificate artifact: [`lab13-badca.example.crt`](lab13-badca.example.crt)

@@ -37,9 +37,9 @@ kubectl get pod memhog -w
 Terminal log:
 
 ```bash
-user@host:~/Projects/LabPack/week1$ kubectl apply -f lab3-memhog.yaml
+$ kubectl apply -f lab3-memhog.yaml
 pod/memhog created
-user@host:~/Projects/LabPack/week1$ kubectl get pod memhog -w
+$ kubectl get pod memhog -w
 NAME     READY   STATUS              RESTARTS   AGE
 memhog   0/1     ContainerCreating   0          9s
 memhog   1/1     Running             0          24s
@@ -58,14 +58,14 @@ while true; do kubectl top pod memhog -n week1; sleep 1; done
 Terminal log:
 
 ```bash
-user@host:~$ while true; do kubectl top pod memhog -n week1; sleep 1; done
+$ while true; do kubectl top pod memhog -n week1; sleep 1; done
 Error from server (NotFound): pods "memhog" not found
 ...
 NAME     CPU(cores)   MEMORY(bytes)
 memhog   14m          4Mi
 ...
 ^C
-user@host:~$
+$
 ```
 
 ## Step 3 - Confirm OOMKilled reason 137
@@ -77,13 +77,13 @@ kubectl describe pod memhog
 Terminal log:
 
 ```bash
-user@host:~$ kubectl describe pod memhog
+$ kubectl describe pod memhog
 ...
 Last State:     Terminated
   Reason:       OOMKilled
   Exit Code:    137
 ...
-user@host:~$/code
+$ /path/to/repo
 ```
 
 ## Step 4 - Right-size resources and verify
@@ -98,14 +98,14 @@ while true; do kubectl top pod memhog -n week1; sleep 1; done
 Terminal log:
 
 ```bash
-user@host:~/Projects/LabPack/week1$ kubectl delete pod memhog
+$ kubectl delete pod memhog
 pod "memhog" deleted
-user@host:~/Projects/LabPack/week1$ kubectl apply -f lab3-memhog-fix.yaml
+$ kubectl apply -f lab3-memhog-fix.yaml
 pod/memhog created
-user@host:~/Projects/LabPack/week1$ kubectl get pod memhog -w
+$ kubectl get pod memhog -w
 NAME     READY   STATUS    RESTARTS   AGE
 memhog   1/1     Running   0          8s
-^Cuser@host:~/Projects/LabPack/week1$
+^C
 ...
 NAME     CPU(cores)   MEMORY(bytes)
 memhog   105m         242Mi

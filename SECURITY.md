@@ -24,7 +24,8 @@ Instead:
 ## Repository rules for contributors
 
 - Use only placeholder values in manifests and docs.
-- Never commit `.env` files, key material, kubeconfigs, dumps, or logs.
+- Never commit `.env` files, key material, kubeconfigs, dumps, logs, browser exports, or generated certificates.
+- Never commit private workspace exports from tools such as Notion, Confluence, or Jira.
 - Do not paste cloud account IDs, private IPs, internal hostnames, or real certificates unless they are already public and intentionally documented.
 - Prefer examples such as `EXAMPLE_NOT_A_REAL_SECRET`, `example.local`, and RFC 5737 documentation IPs.
 
@@ -47,11 +48,13 @@ To review historical risk:
 ./scripts/security-history-scan.sh
 ```
 
-If history still contains export bundles or risky artifacts, use the rewrite helper from a coordinated mirror clone:
+If history still contains export bundles or risky artifacts, do not publish the repository yet. Coordinate a history rewrite first and do not use `git push --mirror` during public release.
+
+If a rewrite is required, use the rewrite helper from a coordinated clone:
 
 ```bash
 brew install git-filter-repo  # or: pipx install git-filter-repo
 ./scripts/rewrite-history-security-clean.sh --yes
 ```
 
-After any history rewrite, force-push branches and tags and ask collaborators to reclone.
+After any history rewrite, force-push only the intended sanitized refs and ask collaborators to reclone.

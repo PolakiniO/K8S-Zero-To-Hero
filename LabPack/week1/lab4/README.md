@@ -40,7 +40,7 @@ kubectl describe pod probe-demo
 Terminal log:
 
 ```bash
-user@host:~/Projects/LabPack/week1$ kubectl apply -f lab4-broken-liveness-probe.yaml
+$ kubectl apply -f lab4-broken-liveness-probe.yaml
 pod/probe-demo created
 ...
 Warning  Unhealthy  5s (x2 over 10s)  kubelet  Liveness probe failed: HTTP probe failed with statuscode: 404
@@ -61,9 +61,9 @@ kubectl describe pod probe-demo
 Terminal log:
 
 ```bash
-user@host:~/Projects/LabPack/week1$ kubectl delete pod probe-demo
+$ kubectl delete pod probe-demo
 pod "probe-demo" deleted
-user@host:~/Projects/LabPack/week1$ kubectl apply -f lab4-fix-liveness-probe.yaml
+$ kubectl apply -f lab4-fix-liveness-probe.yaml
 pod/probe-demo created
 ...
 probe-demo   1/1     Running   0          12s
@@ -82,9 +82,9 @@ kubectl get endpoints probe-svc -w
 Terminal log:
 
 ```bash
-user@host:~/Projects/LabPack/week1$ kubectl apply -f lab4-readiness-service.yaml
+$ kubectl apply -f lab4-readiness-service.yaml
 service/probe-svc created
-user@host:~/Projects/LabPack/week1$ kubectl get endpoints probe-svc -w
+$ kubectl get endpoints probe-svc -w
 NAME        ENDPOINTS        AGE
 probe-svc   10.244.xxx.xxx:80   80s
 ```
@@ -103,12 +103,12 @@ kubectl get endpoints probe-svc -w
 Terminal log:
 
 ```bash
-user@host:~/Projects/LabPack/week1$ kubectl apply -f lab4-broken-readiness-probe.yaml
+$ kubectl apply -f lab4-broken-readiness-probe.yaml
 The Pod "probe-demo" is invalid: spec: Forbidden: pod updates may not change fields other than `spec.containers[*].image`,`spec.initContainers[*].image`,`spec.activeDeadlineSeconds`,`spec.tolerations` (only additions to existing tolerations),`spec.terminationGracePeriodSeconds` (allow it to be set to 1 if it was previously negative)
 ...
-user@host:~/Projects/LabPack/week1$ kubectl delete pod probe-demo
+$ kubectl delete pod probe-demo
 pod "probe-demo" deleted
-user@host:~/Projects/LabPack/week1$ kubectl apply -f lab4-broken-readiness-probe.yaml
+$ kubectl apply -f lab4-broken-readiness-probe.yaml
 pod/probe-demo created
 ...
 probe-demo   0/1     Running   0          12s

@@ -35,6 +35,11 @@ gather_history_path_matches() {
   done < <(git log --all --name-only --pretty=format: | sed '/^$/d' | sort -u)
 
   for path in "${history_paths[@]}"; do
+    case "$path" in
+      .env.example|*/.env.example)
+        continue
+        ;;
+    esac
     for pattern in "${patterns[@]}"; do
       if [[ "$path" == $pattern ]]; then
         hits+=("$path")
@@ -62,6 +67,11 @@ while IFS= read -r path; do
   [[ -n "$path" ]] && deleted_paths+=("$path")
 done < <(git log --all --diff-filter=D --summary --format='' | sed -n 's/^ delete mode [0-9]* //p' | sort -u)
 for path in "${deleted_paths[@]}"; do
+  case "$path" in
+    .env.example|*/.env.example)
+      continue
+      ;;
+  esac
   for pattern in "${SECURITY_PATH_GLOBS[@]}" "${SECURITY_HISTORY_RISK_PATH_GLOBS[@]}"; do
     if [[ "$path" == $pattern ]]; then
       deleted_hits+=("$path")

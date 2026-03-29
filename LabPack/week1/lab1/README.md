@@ -37,9 +37,9 @@ kubectl get pods web-app -w
 Terminal log:
 
 ```bash
-user@host:~$ kubectl run web-app --image=nginx:1.25 --restart=Never
+$ kubectl run web-app --image=nginx:1.25 --restart=Never
 pod/web-app created
-user@host:~$ kubectl get pods web-app -w
+$ kubectl get pods web-app -w
 NAME      READY   STATUS              RESTARTS   AGE
 web-app   0/1     ContainerCreating   0          6s
 web-app   1/1     Running             0          28s
@@ -57,16 +57,16 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 Terminal log:
 
 ```bash
-user@host:~$ kubectl run web-app --image=nginx:1.25-DoNotExist --restart=Never
+$ kubectl run web-app --image=nginx:1.25-DoNotExist --restart=Never
 pod/web-app created
-user@host:~$ kubectl get pod web-app
+$ kubectl get pod web-app
 NAME      READY   STATUS         RESTARTS   AGE
 web-app   0/1     ErrImagePull   0          32s
 ...
   Warning  Failed     21s (x2 over 37s)  kubelet            Error: ErrImagePull
   Normal   BackOff    9s (x2 over 36s)   kubelet            Back-off pulling image "nginx:1.25-DoNotExist"
   Warning  Failed     9s (x2 over 36s)   kubelet            Error: ImagePullBackOff
-user@host:~$ kubectl get events --sort-by=.metadata.creationTimestamp
+$ kubectl get events --sort-by=.metadata.creationTimestamp
 ...
 4s          Normal    BackOff     pod/web-app   Back-off pulling image "nginx:1.25-DoNotExist"
 4s          Warning   Failed      pod/web-app   Error: ImagePullBackOff
@@ -82,9 +82,9 @@ kubectl describe pod web-app -n week1
 Terminal log:
 
 ```bash
-user@host:~$ kubectl set image pod/web-app web-app=nginx:1.25 -n week1
+$ kubectl set image pod/web-app web-app=nginx:1.25 -n week1
 pod/web-app image updated
-user@host:~$ kubectl describe pod web-app -n week1
+$ kubectl describe pod web-app -n week1
 Status:           Running
 ...
     Image:          nginx:1.25

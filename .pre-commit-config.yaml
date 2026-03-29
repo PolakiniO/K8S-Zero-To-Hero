@@ -1,0 +1,17 @@
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: security-release-scan
+        name: security release scan
+        entry: bash scripts/security-release-scan.sh
+        language: system
+        pass_filenames: false
+      - id: security-history-scan
+        name: security history scan
+        entry: bash scripts/security-history-scan.sh
+        language: system
+        pass_filenames: false

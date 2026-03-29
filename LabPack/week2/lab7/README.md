@@ -41,10 +41,10 @@ kubectl delete pod -l app=web --ignore-not-found
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$ kubectl delete deployment web --ignore-not-found
-user@host:~/Projects/k8s/week2$ kubectl delete rs -l app=web --ignore-not-found
+$ kubectl delete deployment web --ignore-not-found
+$ kubectl delete rs -l app=web --ignore-not-found
 No resources found
-user@host:~/Projects/k8s/week2$ kubectl delete pod -l app=web --ignore-not-found
+$ kubectl delete pod -l app=web --ignore-not-found
 pod"web-demo" deleted
 ```
 
@@ -60,27 +60,27 @@ kubectl get pods -w
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$touch lab7-deploy-good.yaml
-user@host:~/Projects/k8s/week2$ kubectl apply -f lab7-deploy-good.yaml
+$ touch lab7-deploy-good.yaml
+$ kubectl apply -f lab7-deploy-good.yaml
 deployment.apps/web created
 
-user@host:~/Projects/k8s/week2$ kubectl get pods -w
+$ kubectl get pods -w
 NAME                   READY   STATUS             RESTARTS   AGE
 curlpod                0/1     ImagePullBackOff   0          21m
 web-686b75b84c-ft259   1/1     Running            0          8s
 web-686b75b84c-vc7jl   1/1     Running            0          8s
 
 curlpod                0/1     ErrImagePull       0          21m
-^Cuser@host:~/Projects/k8s/week2$
+^C
 
-user@host:~/Projects/k8s/week2$ kubectl delete pod curlpod
+$ kubectl delete pod curlpod
 pod"curlpod" deleted
 
-user@host:~/Projects/k8s/week2$ kubectl get pods -w
+$ kubectl get pods -w
 NAME                   READY   STATUS    RESTARTS   AGE
 web-686b75b84c-ft259   1/1     Running   0          31s
 web-686b75b84c-vc7jl   1/1     Running   0          31s
-^Cuser@host:~/Projects/k8s/week2$
+^C
 ```
 
 ## Step 2 - Break the rollout
@@ -93,13 +93,13 @@ kubectl rollout status deployment/web
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$touch lab7-deploy-broken.yaml
-user@host:~/Projects/k8s/week2$ kubectl apply -f lab7-deploy-broken.yaml
+$ touch lab7-deploy-broken.yaml
+$ kubectl apply -f lab7-deploy-broken.yaml
 deployment.apps/web configured
 
-user@host:~/Projects/k8s/week2$ kubectl rollout status deployment/web
+$ kubectl rollout status deployment/web
 Waitingfor deployment"web" rollout to finish: 1 out of 2 new replicas have been updated...
-^Cuser@host:~/Projects/k8s/week2$
+^C
 ```
 
 ## Step 3 - Observe failure symptoms
@@ -113,19 +113,19 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$ kubectl get pods
+$ kubectl get pods
 NAME                   READY   STATUS             RESTARTS   AGE
 web-5cc4949757-fp4wh   0/1     ImagePullBackOff   0          44s
 web-686b75b84c-ft259   1/1     Running            0          2m22s
 web-686b75b84c-vc7jl   1/1     Running            0          2m22s
 
-user@host:~/Projects/k8s/week2$ kubectl desctibe pod web-5cc4949757-fp4wh
+$ kubectl desctibe pod web-5cc4949757-fp4wh
 error: unknowncommand"desctibe"for"kubectl"
 
 Did you mean this?
         describe
 
-user@host:~/Projects/k8s/week2$ kubectl describe pod web-5cc4949757-fp4wh
+$ kubectl describe pod web-5cc4949757-fp4wh
 ...
     Image:          nginx:1.25-doesnotexist
 ...
@@ -139,7 +139,7 @@ Events:
   Normal   BackOff    ...  Back-off pulling image"nginx:1.25-doesnotexist"
   Warning  Failed     ...  Error: ImagePullBackOff
 
-user@host:~/Projects/k8s/week2$ kubectl get events --sort-by=.metadata.creationTimestamp
+$ kubectl get events --sort-by=.metadata.creationTimestamp
 ...
 102s        Normal    SuccessfulCreate    replicaset/web-5cc4949757   Created pod: web-5cc4949757-fp4wh
 102s        Normal    ScalingReplicaSet   deployment/web              Scaled up replicaset web-5cc4949757 to 1
@@ -159,7 +159,7 @@ kubectl rollouthistory deployment/web
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$ kubectl rollouthistory deployment/web
+$ kubectl rollouthistory deployment/web
 deployment.apps/web
 REVISION  CHANGE-CAUSE
 1         <none>
@@ -177,13 +177,13 @@ kubectl get pods
 Terminal log:
 
 ```bash
-user@host:~/Projects/k8s/week2$ kubectl rollout undo deployment/web
+$ kubectl rollout undo deployment/web
 deployment.apps/web rolled back
 
-user@host:~/Projects/k8s/week2$ kubectl rollout status deployment/web
+$ kubectl rollout status deployment/web
 deployment"web" successfully rolled out
 
-user@host:~/Projects/k8s/week2$ kubectl get pods
+$ kubectl get pods
 NAME                   READY   STATUS    RESTARTS   AGE
 web-686b75b84c-ft259   1/1     Running   0          4m26s
 web-686b75b84c-vc7jl   1/1     Running   0          4m26s
