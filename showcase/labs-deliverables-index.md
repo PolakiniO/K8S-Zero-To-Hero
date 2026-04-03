@@ -55,6 +55,7 @@ Source: `docs/eks-anonymized-interview-lab.md`
 - ✅ Full incident coverage list across Lab 1 through Lab 15 is maintained in:
   - [`showcase/portfolio/all-labs-incident-index.md`](portfolio/all-labs-incident-index.md)
 - ✅ Detailed incident reports (detection, timeline, RCA, remediation, prevention) are now documented for each completed lab incident in the same index.
+- ✅ Per-incident files are also available in [`showcase/portfolio/incidents/`](portfolio/incidents/README.md) for cleaner review and sharing.
 
 ## Priority path (if you only have limited time)
 
