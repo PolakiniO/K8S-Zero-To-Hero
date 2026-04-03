@@ -7,8 +7,9 @@ Use this index to navigate incident drills and document the full investigation l
 1. Problem description
 2. Investigation approach
 3. Commands executed
-4. Root cause proof
-5. Resolution and verification
+4. Command/log evidence captured
+5. Root cause proof
+6. Resolution and verification
 
 ## Core scenarios mapped to existing labs
 
@@ -65,11 +66,24 @@ Use this index to navigate incident drills and document the full investigation l
 ### Investigation
 - Hypotheses:
 - Commands executed:
-- Evidence found:
+- Command/log evidence (sanitized snippets):
+  ```txt
+  $ <command>
+  <redacted-or-anonymized-output>
+  ```
 - What was ruled out:
 
-### Root Cause
--
+### RCA (Root Cause Analysis)
+- Root cause summary:
+- Trigger conditions:
+- Why detection was delayed (if applicable):
+- Corrective actions:
+
+### Public Safety & Anonymization
+- Replace company/internal names with generic labels (`org-a`, `svc-api`, `cluster-prod`).
+- Mask sensitive values (IPs, account IDs, domains, tokens, emails) before publishing logs.
+- Keep only technical evidence needed to prove diagnosis and fix.
+- Exclude credentials, kubeconfigs, and internal URLs from command output.
 
 ### Resolution
 - Immediate mitigation:

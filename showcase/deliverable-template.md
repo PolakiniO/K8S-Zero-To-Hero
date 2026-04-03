@@ -17,6 +17,11 @@ Use this template per incident/lab and commit it under your own notes path.
 
 ## 2) Investigation
 - Commands run:
+- Command + log excerpts (sanitized):
+  ```txt
+  $ <command>
+  <anonymized output>
+  ```
 - Logs reviewed:
 - Metrics/signals reviewed:
 - What was ruled out:
@@ -24,6 +29,7 @@ Use this template per incident/lab and commit it under your own notes path.
 ## 3) Root Cause
 - Precise failing condition:
 - Why it happened:
+- RCA summary (symptom vs root cause vs contributing factors):
 
 ## 4) Resolution
 - Immediate mitigation:
@@ -47,4 +53,5 @@ Use this template per incident/lab and commit it under your own notes path.
 - [ ] No company names.
 - [ ] No real IPs / endpoints.
 - [ ] No account IDs / bucket names.
+- [ ] Command outputs/logs are anonymized and redacted.
 - [ ] No credentials or secret values.

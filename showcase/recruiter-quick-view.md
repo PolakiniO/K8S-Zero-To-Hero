@@ -17,6 +17,7 @@ This repository demonstrates:
 4. `docs/eks-anonymized-interview-lab.md`
 5. `Labs/K8S-Lab-Week3/README.md`
 6. `showcase/portfolio/completed-work-index.md`
+7. `showcase/portfolio/all-labs-incident-index.md`
 
 ## What to look for in deliverables
 
