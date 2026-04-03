@@ -13,6 +13,7 @@ Use this page as a recruiter checklist of what is already implemented in this re
 - ✅ Week 1 labs: core failure handling and first-line debugging ([`Labs/K8S-Lab-Week1/README.md`](../../Labs/K8S-Lab-Week1/README.md))
 - ✅ Week 2 labs: networking/rollout/storage incidents ([`Labs/K8S-Lab-Week2/README.md`](../../Labs/K8S-Lab-Week2/README.md))
 - ✅ Week 3 labs: advanced production pressure scenarios ([`Labs/K8S-Lab-Week3/README.md`](../../Labs/K8S-Lab-Week3/README.md))
+- ✅ Portfolio incident coverage for all labs (Lab 1 through Lab 15) ([`showcase/portfolio/all-labs-incident-index.md`](all-labs-incident-index.md))
 
 ## Structured Incident Practice
 

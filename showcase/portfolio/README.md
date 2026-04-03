@@ -10,7 +10,8 @@ It is intentionally structured as:
 ## Contents
 
 1. [Completed Work Index](completed-work-index.md)
-2. [Case Study Summaries](case-study-summaries.md)
+2. [All Labs Incident Index](all-labs-incident-index.md)
+3. [Case Study Summaries](case-study-summaries.md)
 
 ## Notes
 

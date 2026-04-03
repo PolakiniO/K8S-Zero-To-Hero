@@ -290,6 +290,7 @@ For the complete structure reference, see [`docs/repository-structure.md`](docs/
 - [Showcase Hub](showcase/README.md)
 - [Recruiter Quick View](showcase/recruiter-quick-view.md)
 - [Portfolio Deliverables (Completed Work)](showcase/portfolio/README.md)
+- [Portfolio: All Labs Incident Index](showcase/portfolio/all-labs-incident-index.md)
 - [Labs Deliverables Index](showcase/labs-deliverables-index.md)
 - [Deliverable Template](showcase/deliverable-template.md)
 

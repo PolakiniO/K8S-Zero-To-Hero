@@ -69,3 +69,18 @@ LabPack/
 - Keep `LabPack/` aligned with corresponding labs when manifests are updated.
 - Prefer adding net-new reusable YAML examples to `manifests/templates/`.
 - Keep scripts idempotent and shellcheck-friendly in `scripts/`.
+
+## Showcase portfolio structure
+
+```text
+showcase/
+├── README.md
+├── deliverable-template.md
+├── labs-deliverables-index.md
+├── recruiter-quick-view.md
+└── portfolio/
+    ├── README.md
+    ├── completed-work-index.md
+    ├── all-labs-incident-index.md
+    └── case-study-summaries.md
+```

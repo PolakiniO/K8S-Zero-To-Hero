@@ -17,6 +17,7 @@ If you are reviewing this repository for hiring purposes, start here before divi
 2. [Lab Deliverables Index](labs-deliverables-index.md)
 3. [Deliverable Template](deliverable-template.md)
 4. [Portfolio Deliverables (Completed Work)](portfolio/README.md)
+5. [Portfolio: All Labs Incident Index](portfolio/all-labs-incident-index.md)
 
 ## Scope and privacy
 

@@ -14,31 +14,31 @@ For each checked item, add a short incident write-up that includes:
 
 ## Week 1 (Core failures)
 
-- [ ] Image pull failure RCA
-- [ ] RBAC authorization failure RCA
-- [ ] OOM/resource pressure RCA
-- [ ] Probe misconfiguration RCA
-- [ ] Secret/Config injection failure RCA
+- [x] Image pull failure RCA
+- [x] RBAC authorization failure RCA
+- [x] OOM/resource pressure RCA
+- [x] Probe misconfiguration RCA
+- [x] Secret/Config injection failure RCA
 
 Source: `Labs/K8S-Lab-Week1/README.md`
 
 ## Week 2 (Networking/rollout/storage)
 
-- [ ] Service selector mismatch RCA
-- [ ] Failed rolling update + rollback RCA
-- [ ] PVC pending/storage RCA
-- [ ] NetworkPolicy deny RCA
-- [ ] End-to-end incident drill RCA
+- [x] Service selector mismatch RCA
+- [x] Failed rolling update + rollback RCA
+- [x] PVC pending/storage RCA
+- [x] NetworkPolicy deny RCA
+- [x] End-to-end incident drill RCA
 
 Source: `Labs/K8S-Lab-Week2/README.md`
 
 ## Week 3 (Production pressure)
 
-- [ ] Node availability incident RCA
-- [ ] Memory pressure + eviction RCA
-- [ ] Certificate trust failure RCA
-- [ ] CPU exhaustion RCA
-- [ ] Multi-service chain failure RCA
+- [x] Node availability incident RCA
+- [x] Memory pressure + eviction RCA
+- [x] Certificate trust failure RCA
+- [x] CPU exhaustion RCA
+- [x] Multi-service chain failure RCA
 
 Source: `Labs/K8S-Lab-Week3/README.md`
 
@@ -49,6 +49,11 @@ Source: `Labs/K8S-Lab-Week3/README.md`
 - [ ] Troubleshooting log (issue → detection → fix)
 
 Source: `docs/eks-anonymized-interview-lab.md`
+
+## Full portfolio incident index
+
+- ✅ Full incident coverage list across Lab 1 through Lab 15 is maintained in:
+  - [`showcase/portfolio/all-labs-incident-index.md`](portfolio/all-labs-incident-index.md)
 
 ## Priority path (if you only have limited time)
 
