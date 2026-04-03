@@ -262,16 +262,6 @@ For the complete structure reference, see [`docs/repository-structure.md`](docs/
 
 ---
 
-## Public-safe publishing checklist
-
-Before publishing updates, verify:
-- no real company/customer names,
-- no real account IDs, bucket names, internal hostnames, or private endpoints,
-- no secrets, keys, kubeconfigs, `.env` values, or credential artifacts,
-- anonymized placeholders are used consistently in docs and examples.
-
----
-
 ## Security checks before pushing updates
 
 Run these before pushing changes to the public repo:
@@ -317,6 +307,14 @@ Start here:
 - [Security Policy](SECURITY.md)
 
 Please keep examples reproducible, prefer declarative manifests, and include failure signals plus the fix.
+
+### Publishing safety checklist for contributors
+
+Before publishing updates, verify:
+- no real company/customer names,
+- no real account IDs, bucket names, internal hostnames, or private endpoints,
+- no secrets, keys, kubeconfigs, `.env` values, or credential artifacts,
+- anonymized placeholders are used consistently in docs and examples.
 
 ---
 
