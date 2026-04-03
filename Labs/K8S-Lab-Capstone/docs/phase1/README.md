@@ -10,6 +10,20 @@ Build a baseline production-like Kubernetes platform with ingress, TLS, app tier
 - Exposure: Ingress `capstone` for `capstone.local`
 - Security: TLS secret `capstone-tls`, default-deny + allowlist NetworkPolicies
 
+```mermaid
+flowchart TB
+    Internet[Client] --> IngressNginx[ingress-nginx controller]
+    IngressNginx --> IngressObj[Ingress: capstone.local]
+    IngressObj --> Frontend[frontend Deployment/Service]
+    Frontend --> Backend[backend Deployment/Service]
+    Backend --> Postgres[postgres StatefulSet/Service]
+
+    Metrics[metrics-server] --> K8sAPI[Kubernetes Metrics API]
+    Netpol[NetworkPolicies] -. controls .-> Frontend
+    Netpol -. controls .-> Backend
+    Netpol -. controls .-> Postgres
+```
+
 ## Step-by-step run order
 1. Platform prerequisites
    - `kubectl apply -f Labs/K8S-Lab-Capstone/01-platform/00-metrics-server.yaml`

@@ -43,7 +43,18 @@ kubectl get endpoints
 - Use `kubectl describe pvc <name>` and `kubectl get pv` for storage issues.
 - For network policy labs, test from both allowed and denied sources.
 
+## Deliverable structure (candidate + recruiter friendly)
+For each lab, include:
+
+1. **Failure narrative** (detection source + user impact)
+2. **Investigation path** (ordered commands and findings)
+3. **Root cause proof** (what eliminated alternative hypotheses)
+4. **Mitigation + permanent correction**
+5. **Recovery validation** (service/rollout/storage healthy again)
+6. **Prevention follow-up** (runbook/alert/policy/test)
+7. **Interview summary** (4 lines: situation, action, result, relevance)
+
 ## Dual-purpose usage (Course + Lab + Showcase)
 - **Course**: focus on networking, rollout, and storage failure reasoning.
 - **Lab**: document before/after states for each manifest fix.
-- **Showcase**: highlight how you reduced blast radius and validated recovery objectively.
+- **Showcase**: highlight how you reduced blast radius, validated recovery objectively, and communicated decisions clearly.

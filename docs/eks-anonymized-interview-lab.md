@@ -7,6 +7,8 @@
 
 Build and validate a production-style three-tier deployment on AWS while intentionally introducing controlled security misconfigurations for risk analysis.
 
+> Application name used in this EKS lab: **Tasky** (corrected typo from previous naming).
+
 ## Anonymization and public-repo safety rules
 
 Use these rules before publishing any update to this lab:
@@ -18,8 +20,8 @@ Use these rules before publishing any update to this lab:
 
 ## Three-tier architecture
 
-### Tier 1 — Application (EKS)
-- Public-facing application served through Kubernetes `Service` type `LoadBalancer`.
+### Tier 1 — Application (EKS, Tasky)
+- Public-facing **Tasky** application served through Kubernetes `Service` type `LoadBalancer`.
 - Workloads run as Deployments in a dedicated namespace.
 - Secrets are injected from Kubernetes `Secret` objects.
 
@@ -31,6 +33,19 @@ Use these rules before publishing any update to this lab:
 ### Tier 3 — Storage (S3 backups)
 - Periodic `mongodump` backups are archived and uploaded to S3.
 - In this lab, bucket readability is intentionally permissive to model a data-exposure risk.
+
+## Architecture diagram
+
+```mermaid
+flowchart LR
+    User[User] --> ALB[Load Balancer Service]
+    ALB --> Tasky[Tasky App Pods on EKS]
+    Tasky --> Mongo[MongoDB on EC2]
+    Mongo --> Backup[S3 Backups]
+
+    IAM[IAM Roles] -. controls .-> Tasky
+    SG[Security Groups] -. controls .-> Mongo
+```
 
 ## Build plan (detailed)
 
@@ -48,7 +63,7 @@ kubectl get ns
 
 ### Phase B — Application deployment
 
-1. Build and push the app image to ECR.
+1. Build and push the **Tasky** app image to ECR.
 2. Create namespace + Secret with MongoDB URI.
 3. Deploy application and service.
 4. Validate app readiness and service exposure:

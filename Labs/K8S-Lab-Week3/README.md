@@ -43,7 +43,19 @@ kubectl rollout status deployment/<deployment-name>
 - Verify certificate chains and trust sources in TLS scenarios.
 - Confirm recovered services using rollout status and endpoint checks.
 
+## Deliverable structure (candidate + recruiter friendly)
+Capture each Week 3 incident using this structure:
+
+1. **Incident context** (what failed and why it mattered)
+2. **Scope and blast radius** (which services/users were affected)
+3. **Evidence timeline** (events, logs, metrics, node state)
+4. **Root cause** (node, config, cert, resource, or dependency failure)
+5. **Response strategy** (stabilize first, then permanent correction)
+6. **Validation** (health, latency, readiness, and error-rate checks)
+7. **Prevention** (capacity guardrails, policy, observability, runbooks)
+8. **Leadership signal** (how you communicated and prioritized under pressure)
+
 ## Dual-purpose usage (Course + Lab + Showcase)
 - **Course**: train advanced production-thinking patterns under pressure.
 - **Lab**: collect evidence across node, workload, network, and app layers.
-- **Showcase**: demonstrate end-to-end incident leadership from triage to preventive follow-up.
+- **Showcase**: demonstrate end-to-end incident ownership from triage to preventive follow-up, which is highly relevant for recruiter review.
