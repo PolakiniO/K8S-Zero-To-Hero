@@ -2,6 +2,12 @@
 
 This notebook turns the course into a practical study reference with architecture context, command mapping, and common failure patterns.
 
+## Dual-purpose usage (Course + Lab + Showcase)
+
+- **Course**: use each section as weekly study material and concept refresh.
+- **Lab**: pair each concept with a matching exercise under `Labs/` and capture command evidence.
+- **Showcase**: summarize what you debugged, what failed, how you proved root cause, and what preventive action you added.
+
 ## 1. Why Kubernetes Exists
 
 ### Core value proposition

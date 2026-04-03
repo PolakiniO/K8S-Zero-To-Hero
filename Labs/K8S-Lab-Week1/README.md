@@ -35,3 +35,8 @@ kubectl get pods -w
 - Validate probes and ports match container behavior.
 - Validate ConfigMap or Secret keys and env var names exactly.
 - Use `kubectl top pod` (if metrics-server is installed) for memory pressure checks.
+
+## Dual-purpose usage (Course + Lab + Showcase)
+- **Course**: use Week 1 to build strong Kubernetes debugging fundamentals.
+- **Lab**: run broken + fixed manifests and keep your command timeline.
+- **Showcase**: publish one concise RCA per lab with symptom, proof, fix, and prevention.

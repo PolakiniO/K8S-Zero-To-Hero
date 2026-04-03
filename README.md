@@ -38,6 +38,7 @@ This repository is built to help you:
 - Incident-style debugging scenarios
 - Cheat sheets and glossary material
 - Capstone exercises for platform and security thinking
+- Recruiter-facing deliverables hub in `showcase/`
 
 ---
 
@@ -102,6 +103,7 @@ That is where the real learning happens.
 ```text
 .
 ├── docs/
+├── showcase/
 ├── Labs/
 │   ├── K8S-Lab-Week1/
 │   ├── K8S-Lab-Week2/
@@ -137,6 +139,18 @@ That is where the real learning happens.
 
 - [Interview Readiness Plan](docs/interview-readiness-plan.md)
 - [Incident Debugging Playbook](docs/incident-debugging-playbook.md)
+- [Learning + Recruiter Showcase Guide](docs/learning-and-recruiter-showcase-guide.md)
+- [Production Troubleshooting Track](docs/production-troubleshooting-track.md)
+- [Incident Investigation Mini Project](docs/incident-investigation-mini-project.md)
+- [EKS Three-Tier Security Lab (Anonymized)](docs/eks-anonymized-interview-lab.md)
+
+### Recruiter showcase
+
+- [Showcase Hub](showcase/README.md)
+- [Recruiter Quick View](showcase/recruiter-quick-view.md)
+- [Portfolio Deliverables (Completed Work)](showcase/portfolio/README.md)
+- [Labs Deliverables Index](showcase/labs-deliverables-index.md)
+- [Deliverable Template](showcase/deliverable-template.md)
 
 ---
 
