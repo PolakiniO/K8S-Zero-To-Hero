@@ -221,6 +221,7 @@ For cloud-level validation, see the anonymized EKS lab:
 - `docs/eks-anonymized-interview-lab.md`
 
 It demonstrates EKS + Load Balancer + IAM-focused troubleshooting and security reasoning.
+The lab write-up is anonymized for public sharing, but the original exercise was executed in a **real AWS EKS interview environment** with actual infrastructure provisioning and application deployment.
 
 ---
 
