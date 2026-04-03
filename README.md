@@ -162,6 +162,9 @@ If you're new to the repo, begin in this order:
 
 A dedicated incident index is available at:
 - `incident-scenarios/README.md`
+- Portfolio-ready incident reports (Lab 01 → Lab 15) are available at:
+  - `showcase/portfolio/incidents/README.md`
+  - `showcase/portfolio/all-labs-incident-index.md`
 
 This includes structured scenarios for:
 - memory limit failure (`OOMKilled`)
@@ -169,6 +172,11 @@ This includes structured scenarios for:
 - service unreachable/selector mismatch
 - DNS and NetworkPolicy issues
 - crash loops caused by config/secret/probe faults
+
+For recruiter-facing evidence and polished write-ups, use:
+- `showcase/portfolio/incidents/lab01-image-pull-backoff.md`
+- `showcase/portfolio/incidents/lab10-end-to-end-incident-drill.md`
+- `showcase/portfolio/incidents/lab15-multi-service-chain-outage.md`
 
 ### Example incident investigation workflow (from this repo)
 
