@@ -86,6 +86,26 @@ showcase/
     └── incidents/
         ├── README.md
         ├── lab01-image-pull-backoff.md
-        ├── ...
+        ├── lab02-rbac-forbidden.md
+        ├── lab03-oomkilled.md
+        ├── lab04-probe-misconfiguration.md
+        ├── lab05-config-secret-wiring.md
+        ├── lab06-service-selector-mismatch.md
+        ├── lab07-rolling-update-rollback.md
+        ├── lab08-pvc-pv-pending.md
+        ├── lab09-networkpolicy-deny.md
+        ├── lab10-end-to-end-incident-drill.md
+        ├── lab11-node-outage-scheduling.md
+        ├── lab12-memory-pressure-evictions.md
+        ├── lab13-certificate-trust-failure.md
+        ├── lab14-cpu-exhaustion.md
         └── lab15-multi-service-chain-outage.md
 ```
+
+## Incident indexing references
+
+Use these as the canonical incident navigation points:
+
+- `incident-scenarios/README.md` for scenario-first incident drills and template capture.
+- `showcase/portfolio/all-labs-incident-index.md` for lab-by-lab incident mapping.
+- `showcase/portfolio/incidents/README.md` for polished recruiter-facing incident write-ups.
