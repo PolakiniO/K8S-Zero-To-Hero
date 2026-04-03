@@ -43,6 +43,71 @@ This repository is built to help you:
 
 ---
 
+## Who this helps immediately
+
+- **Candidates**: turn lab work into interview-ready incident stories with measurable technical signal.
+- **Recruiters/Hiring Managers**: review structured proof of troubleshooting ability in 10–15 minutes.
+- **Learners**: follow a guided progression from fundamentals to production-style incident handling.
+
+---
+
+## Project goal
+
+Build a production-style Kubernetes simulation that is easy to run and easy to audit.
+
+The repository demonstrates a working **frontend + backend API + database** topology, then layers realistic incident drills, troubleshooting workflow, and recovery validation.
+
+---
+
+## Architecture
+
+### System topology (core)
+
+- **Frontend**: user-facing web tier
+- **Backend API**: application logic/service layer
+- **Database**: persistent state tier
+- **Ingress**: external entry path
+- **Config/Secrets**: runtime configuration and sensitive values
+
+Core manifests are available in the capstone app and platform folders:
+- `Labs/K8S-Lab-Capstone/02-apps/31-frontend.yaml`
+- `Labs/K8S-Lab-Capstone/02-apps/30-backend.yaml`
+- `Labs/K8S-Lab-Capstone/02-apps/20-postgres.yaml`
+- `Labs/K8S-Lab-Capstone/02-apps/50-ingress.yaml`
+- `Labs/K8S-Lab-Capstone/01-platform/00-metrics-server.yaml`
+
+```mermaid
+flowchart LR
+    User[User/Client] --> Ingress[Ingress: capstone]
+    Ingress --> FE[Frontend Deployment + Service]
+    FE --> BE[Backend Deployment + Service]
+    BE --> DB[(Postgres StatefulSet + Service)]
+    FE -. config .-> CM[ConfigMap]
+    BE -. secrets .-> SEC[Secret]
+```
+
+### Kubernetes objects covered
+
+- Deployment
+- StatefulSet
+- Service
+- ConfigMap
+- Secret
+- Ingress
+- NetworkPolicy
+
+---
+
+## Technologies
+
+- Kubernetes (`kubectl`, manifests)
+- Ingress NGINX
+- metrics-server (resource visibility via `kubectl top`)
+- Kubernetes events/log-based diagnostics
+- AWS/EKS path (anonymized cloud lab)
+
+---
+
 ## Quick Start
 
 ### 1) Prerequisites
@@ -84,6 +149,49 @@ If you're new to the repo, begin in this order:
 
 ---
 
+## How to run (fast path)
+
+1. Deploy the production-style capstone stack from `Labs/K8S-Lab-Capstone/docs/phase1/README.md`.
+2. Verify baseline health (pods, services, ingress, PVCs, resource usage).
+3. Run failure drills from Week 1 → Week 3 labs.
+4. Record each incident using the template in `incident-scenarios/README.md`.
+
+---
+
+## Incident scenarios
+
+A dedicated incident index is available at:
+- `incident-scenarios/README.md`
+
+This includes structured scenarios for:
+- memory limit failure (`OOMKilled`)
+- `ImagePullBackOff`
+- service unreachable/selector mismatch
+- DNS and NetworkPolicy issues
+- crash loops caused by config/secret/probe faults
+
+---
+
+## Observability baseline
+
+Current in-repo baseline:
+- `metrics-server` in capstone platform setup
+- `kubectl top` usage for CPU/memory validation
+
+Recommended extension:
+- metrics-server + command-level resource and event visibility
+
+---
+
+## Cloud extension (optional)
+
+For cloud-level validation, see the anonymized EKS lab:
+- `docs/eks-anonymized-interview-lab.md`
+
+It demonstrates EKS + Load Balancer + IAM-focused troubleshooting and security reasoning.
+
+---
+
 ## Recommended workflow
 
 Use the repo like this:
@@ -113,6 +221,7 @@ For the complete structure reference, see [`docs/repository-structure.md`](docs/
 ├── manifests/
 │   └── templates/
 ├── scripts/
+├── incident-scenarios/
 └── showcase/
 ```
 
@@ -125,6 +234,7 @@ For the complete structure reference, see [`docs/repository-structure.md`](docs/
 - [Course Notebook](docs/course-notebook.md)
 - [Kubernetes Glossary](docs/glossary.md)
 - [kubectl Command Cheat Sheet](docs/kubectl-cheatsheet.md)
+- [Observability Baseline (Current Repository Scope)](docs/observability-baseline.md)
 
 ### Hands-on labs
 
@@ -149,6 +259,16 @@ For the complete structure reference, see [`docs/repository-structure.md`](docs/
 - [Portfolio Deliverables (Completed Work)](showcase/portfolio/README.md)
 - [Labs Deliverables Index](showcase/labs-deliverables-index.md)
 - [Deliverable Template](showcase/deliverable-template.md)
+
+---
+
+## Public-safe publishing checklist
+
+Before publishing updates, verify:
+- no real company/customer names,
+- no real account IDs, bucket names, internal hostnames, or private endpoints,
+- no secrets, keys, kubeconfigs, `.env` values, or credential artifacts,
+- anonymized placeholders are used consistently in docs and examples.
 
 ---
 

@@ -8,6 +8,7 @@ This document is the source of truth for how `K8S-Zero-To-Hero` is organized.
 - `Labs/` — canonical lab source material grouped by week and capstone.
 - `LabPack/` — runner-friendly weekly lab bundles with per-lab READMEs and assets.
 - `showcase/` — recruiter-facing summaries, templates, and portfolio assets.
+- `incident-scenarios/` — centralized incident index and scenario write-up template.
 - `exercises/` — short weekly practice prompts and lightweight drill guides.
 - `manifests/templates/` — reusable Kubernetes manifest templates.
 - `scripts/` — repo maintenance, security, and link verification scripts.
@@ -22,6 +23,7 @@ Use this path when navigating the repository:
 2. Run labs from `Labs/` in week order.
 3. Use `LabPack/` when you want an isolated per-lab packet.
 4. Capture outcomes in `showcase/`.
+5. Normalize incident write-ups via `incident-scenarios/README.md`.
 
 ## Labs organization
 

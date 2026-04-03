@@ -36,7 +36,18 @@ kubectl get pods -w
 - Validate ConfigMap or Secret keys and env var names exactly.
 - Use `kubectl top pod` (if metrics-server is installed) for memory pressure checks.
 
+## Deliverable structure (candidate + recruiter friendly)
+For each completed lab, record:
+
+1. **Scenario** (what broke)
+2. **Impact** (what degraded)
+3. **Evidence** (commands + key output)
+4. **Root cause** (single precise statement)
+5. **Fix + validation** (proof recovery)
+6. **Prevention** (what you changed to avoid repeat)
+7. **Role relevance** (why this matters for TAM/Support/Platform/Security)
+
 ## Dual-purpose usage (Course + Lab + Showcase)
 - **Course**: use Week 1 to build strong Kubernetes debugging fundamentals.
 - **Lab**: run broken + fixed manifests and keep your command timeline.
-- **Showcase**: publish one concise RCA per lab with symptom, proof, fix, and prevention.
+- **Showcase**: publish one concise RCA per lab with symptom, proof, fix, prevention, and role relevance.

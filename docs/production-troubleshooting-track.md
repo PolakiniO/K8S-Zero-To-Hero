@@ -14,6 +14,17 @@ Build a repeatable way to explain:
 
 ---
 
+## Candidate value and recruiter relevance
+
+This track is intentionally structured to show skills hiring teams want in customer-facing and production roles:
+
+- You can debug under pressure using evidence.
+- You separate symptom vs trigger vs root cause.
+- You communicate impact and decision trade-offs clearly.
+- You close incidents with prevention work, not only a quick patch.
+
+---
+
 ## Case path (in order)
 
 ### Case 1 — Production Outage: Service returns 5xx
@@ -101,7 +112,7 @@ kubectl describe deployment api -n prod
 
 ---
 
-## Evidence checklist per case
+## Deliverable structure (use for every lab)
 
 Use this template when documenting each incident:
 
@@ -128,6 +139,12 @@ Use this template when documenting each incident:
 - Alerting improvements:
 - Runbook/update:
 - Guardrails/tests:
+
+### Interview-ready summary (4 lines max)
+- Situation:
+- Action:
+- Result:
+- Role relevance (TAM/Support/Platform/Security):
 ```
 
 ## Success criteria
@@ -135,8 +152,9 @@ Use this template when documenting each incident:
 - You can explain each case in under 5 minutes.
 - Every conclusion is backed by objective evidence (command output/logs/metrics).
 - You separate symptom, trigger, and root cause clearly.
+- Your summary is understandable to both engineers and non-engineering interviewers.
 
 ## Dual-use value (learning + recruiter showcase)
 
 - **For learners**: run each case as a repeatable drill and fill the evidence template every time.
-- **For recruiters**: this track demonstrates structured production debugging, clean RCA thinking, and prevention-oriented engineering.
+- **For recruiters**: this track demonstrates structured production debugging, clean RCA thinking, communication quality, and prevention-oriented engineering.
