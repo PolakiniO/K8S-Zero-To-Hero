@@ -34,6 +34,7 @@ This repository is built to help you:
 ## What you get
 
 - Structured course notes in `docs/`
+- Repository map and navigation guide in [`docs/repository-structure.md`](docs/repository-structure.md)
 - Progressive hands-on labs in `Labs/`
 - Incident-style debugging scenarios
 - Cheat sheets and glossary material
@@ -100,22 +101,19 @@ That is where the real learning happens.
 
 ## Repository layout
 
+For the complete structure reference, see [`docs/repository-structure.md`](docs/repository-structure.md).
+
 ```text
 .
+├── .github/
 ├── docs/
-├── showcase/
-├── Labs/
-│   ├── K8S-Lab-Week1/
-│   ├── K8S-Lab-Week2/
-│   ├── K8S-Lab-Week3/
-│   └── K8S-Lab-Capstone/
-│       ├── 01-platform/
-│       ├── 02-apps/
-│       ├── docs/phase1/
-│       └── scripts/
-├── LabPack/
 ├── exercises/
-└── scripts/
+├── LabPack/
+├── Labs/
+├── manifests/
+│   └── templates/
+├── scripts/
+└── showcase/
 ```
 
 ---
