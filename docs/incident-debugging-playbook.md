@@ -2,6 +2,11 @@
 
 Use this flow for any production-style incident.
 
+## Dual-purpose usage (Course + Lab + Showcase)
+- **Course**: memorize and rehearse this flow until it is second nature.
+- **Lab**: run the flow against intentionally broken workloads and keep raw evidence.
+- **Showcase**: present incidents using this exact structure to demonstrate production incident discipline.
+
 ## 1) Triage
 - What is broken? (symptom)
 - Who is impacted? (blast radius)

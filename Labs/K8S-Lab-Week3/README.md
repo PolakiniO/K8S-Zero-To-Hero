@@ -42,3 +42,8 @@ kubectl rollout status deployment/<deployment-name>
 - Use node and pod-level describe output to isolate scheduling vs runtime failures.
 - Verify certificate chains and trust sources in TLS scenarios.
 - Confirm recovered services using rollout status and endpoint checks.
+
+## Dual-purpose usage (Course + Lab + Showcase)
+- **Course**: train advanced production-thinking patterns under pressure.
+- **Lab**: collect evidence across node, workload, network, and app layers.
+- **Showcase**: demonstrate end-to-end incident leadership from triage to preventive follow-up.

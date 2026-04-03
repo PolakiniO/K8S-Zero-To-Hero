@@ -3,6 +3,11 @@
 ## Goal
 Build confidence to debug real Kubernetes incidents and explain root causes clearly in interviews.
 
+## Dual-purpose usage (Course + Lab + Showcase)
+- **Course**: follow the three-week sequence in order.
+- **Lab**: reproduce every failure mode and record exact command output.
+- **Showcase**: turn each completed exercise into a short incident story (impact, evidence, root cause, fix, prevention).
+
 ---
 
 ## Week 1 — Core Operations + Failure Handling

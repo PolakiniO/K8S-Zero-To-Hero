@@ -42,3 +42,8 @@ kubectl get endpoints
 - Use `kubectl rollout status deployment/<name>` during update labs.
 - Use `kubectl describe pvc <name>` and `kubectl get pv` for storage issues.
 - For network policy labs, test from both allowed and denied sources.
+
+## Dual-purpose usage (Course + Lab + Showcase)
+- **Course**: focus on networking, rollout, and storage failure reasoning.
+- **Lab**: document before/after states for each manifest fix.
+- **Showcase**: highlight how you reduced blast radius and validated recovery objectively.
