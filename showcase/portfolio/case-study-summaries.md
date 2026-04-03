@@ -31,6 +31,7 @@ These summaries present completed work in a concise interview-ready format.
 
 **Evidence in repo**
 - `docs/incident-investigation-mini-project.md`
+- `showcase/portfolio/all-labs-incident-index.md`
 - `showcase/deliverable-template.md`
 
 **Showcase value**

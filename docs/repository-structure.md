@@ -82,5 +82,10 @@ showcase/
     ├── README.md
     ├── completed-work-index.md
     ├── all-labs-incident-index.md
-    └── case-study-summaries.md
+    ├── case-study-summaries.md
+    └── incidents/
+        ├── README.md
+        ├── lab01-image-pull-backoff.md
+        ├── ...
+        └── lab15-multi-service-chain-outage.md
 ```
