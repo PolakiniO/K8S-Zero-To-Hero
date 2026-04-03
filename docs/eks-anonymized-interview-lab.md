@@ -2,6 +2,7 @@
 
 > This lab is adapted from a past interview home assignment and intentionally anonymized.
 > It contains no company-identifying names, no real account IDs, no real IP addresses, and no unique environment identifiers.
+> The original execution was performed in a **real AWS EKS environment** during an interview process, with actual infrastructure provisioning and real application deployment (all identifiers redacted here).
 
 ## Objective
 
