@@ -170,6 +170,38 @@ This includes structured scenarios for:
 - DNS and NetworkPolicy issues
 - crash loops caused by config/secret/probe faults
 
+### Example incident investigation workflow (from this repo)
+
+Use this sequence after deploying the capstone stack and running one of the failure drills:
+
+1. **Capture the symptom quickly**
+   - `kubectl get pods -A`
+   - `kubectl get events -A --sort-by=.lastTimestamp`
+   - `kubectl top pods -A`
+2. **Scope impact by tier**
+   - Check frontend → backend → database path using manifests in:
+     - `Labs/K8S-Lab-Capstone/02-apps/31-frontend.yaml`
+     - `Labs/K8S-Lab-Capstone/02-apps/30-backend.yaml`
+     - `Labs/K8S-Lab-Capstone/02-apps/20-postgres.yaml`
+3. **Investigate the failing workload**
+   - `kubectl describe pod <pod> -n <ns>`
+   - `kubectl logs <pod> -n <ns> --previous` (if restarted)
+   - Confirm common patterns practiced in labs (`OOMKilled`, `ImagePullBackOff`, `CrashLoopBackOff`, selector mismatch).
+4. **Validate service routing and policy**
+   - `kubectl get svc,endpoints -n <ns>`
+   - `kubectl describe networkpolicy -n <ns>`
+   - `kubectl exec -it <pod> -n <ns> -- nslookup <service>`
+5. **Fix the root cause**
+   - Update manifest/config/secret/probe/image tag as needed.
+   - Re-apply and watch rollout: `kubectl apply -f <file>` + `kubectl rollout status deploy/<name> -n <ns>`.
+6. **Prove recovery**
+   - Re-run health checks (`get`, `top`, logs, endpoint checks).
+   - Confirm user path through ingress.
+7. **Document the incident**
+   - Record timeline, commands, evidence, root cause, and prevention steps in `incident-scenarios/README.md`.
+
+This mirrors the repo's Week 1 → Week 3 progression: detect fast, isolate by layer, fix precisely, and document for interview-ready evidence.
+
 ---
 
 ## Observability baseline
