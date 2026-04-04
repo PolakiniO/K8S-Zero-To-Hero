@@ -13,7 +13,7 @@ Use this page as a recruiter checklist of what is already implemented in this re
 - ✅ Week 1 labs: core failure handling and first-line debugging ([`Labs/K8S-Lab-Week1/README.md`](../../Labs/K8S-Lab-Week1/README.md))
 - ✅ Week 2 labs: networking/rollout/storage incidents ([`Labs/K8S-Lab-Week2/README.md`](../../Labs/K8S-Lab-Week2/README.md))
 - ✅ Week 3 labs: advanced production pressure scenarios ([`Labs/K8S-Lab-Week3/README.md`](../../Labs/K8S-Lab-Week3/README.md))
-- ✅ Portfolio incident coverage for all labs (Lab 1 through Lab 15) ([`showcase/portfolio/all-labs-incident-index.md`](all-labs-incident-index.md))
+- ✅ Portfolio incident coverage for all labs (Lab 1 through Lab 15) plus EKS anonymized incident reports ([`showcase/portfolio/all-labs-incident-index.md`](all-labs-incident-index.md))
 
 ## Structured Incident Practice
 
@@ -23,6 +23,7 @@ Use this page as a recruiter checklist of what is already implemented in this re
 ## Cloud Security Lab (Anonymized)
 
 - ✅ EKS three-tier architecture lab with troubleshooting log ([`docs/eks-anonymized-interview-lab.md`](../../docs/eks-anonymized-interview-lab.md))
+- ✅ EKS incident reports split into per-incident files sourced from recorded troubleshooting data ([`showcase/portfolio/incidents/README.md`](incidents/README.md))
 - ✅ Intentional misconfiguration chaining and attack-path reasoning ([`docs/eks-anonymized-interview-lab.md#intentional-misconfigurations-for-security-analysis`](../../docs/eks-anonymized-interview-lab.md#intentional-misconfigurations-for-security-analysis), [`docs/eks-anonymized-interview-lab.md#attack-path-simulation-high-level`](../../docs/eks-anonymized-interview-lab.md#attack-path-simulation-high-level))
 - ✅ Public repository anonymization and safety rules included ([`docs/eks-anonymized-interview-lab.md#anonymization-and-public-repo-safety-rules`](../../docs/eks-anonymized-interview-lab.md#anonymization-and-public-repo-safety-rules), [`SECURITY.md`](../../SECURITY.md))
 
