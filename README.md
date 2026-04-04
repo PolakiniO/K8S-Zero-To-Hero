@@ -1,8 +1,8 @@
+![K8S Zero to Hero Banner](sources/IMG_9937.png)
+
 # K8S Zero to Hero
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Platform](https://img.shields.io/badge/platform-Kubernetes-326CE5)](#) [![Focus](https://img.shields.io/badge/focus-Hands--On-success)](#) [![Status](https://img.shields.io/badge/status-public-brightgreen)](#)
-
-![K8S Zero to Hero Banner](sources/IMG_9937.png)
 
 **Learn Kubernetes by doing the work.**
 Built for multiple audiences: hands-on learners, interview candidates, and recruiters/hiring teams.
