@@ -45,9 +45,29 @@ This repository is built to help you:
 
 ## Who this helps immediately
 
-- **Candidates**: turn lab work into interview-ready incident stories with measurable technical signal.
-- **Recruiters/Hiring Managers**: review structured proof of troubleshooting ability in 10–15 minutes.
-- **Learners**: follow a guided progression from fundamentals to production-style incident handling.
+- **Candidates**: turn lab work into interview-ready incident stories with measurable technical signal. Start with the [candidate quick path](#candidate-quick-path).
+- **Recruiters/Hiring Managers**: review structured proof of troubleshooting ability in 10–15 minutes. Jump to the [recruiter quick path](#recruiter-quick-path).
+- **Learners**: follow a guided progression from fundamentals to production-style incident handling. Follow the [learner quick path](#learner-quick-path).
+
+### Candidate quick path
+
+1. [Incident portfolio index](showcase/portfolio/incidents/README.md)
+2. [All labs incident index](showcase/portfolio/all-labs-incident-index.md)
+3. [Deep-dive sample incident (Lab 15)](showcase/portfolio/incidents/lab15-multi-service-chain-outage.md)
+
+### Recruiter quick path
+
+1. [Recruiter hub](showcase/README.md)
+2. [Recruiter quick view](showcase/recruiter-quick-view.md)
+3. [Interview-ready incident set](showcase/portfolio/incidents/README.md)
+
+### Learner quick path
+
+1. [Course notebook](docs/course-notebook.md)
+2. [Week 1 labs](Labs/K8S-Lab-Week1/README.md)
+3. [Week 2 labs](Labs/K8S-Lab-Week2/README.md)
+4. [Week 3 labs](Labs/K8S-Lab-Week3/README.md)
+5. [Capstone Phase 1](Labs/K8S-Lab-Capstone/docs/phase1/README.md)
 
 ---
 
