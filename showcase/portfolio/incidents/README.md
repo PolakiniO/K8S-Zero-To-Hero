@@ -25,3 +25,12 @@ Each file in this folder contains one detailed incident report, separated for cl
 - [13. Lab 13: Certificate trust failure and recovery](lab13-certificate-trust-failure.md)
 - [14. Lab 14: CPU exhaustion and scheduler `Insufficient cpu`](lab14-cpu-exhaustion.md)
 - [15. Lab 15: Multi-service chain outage (frontend/backend/postgres)](lab15-multi-service-chain-outage.md)
+
+## EKS Anonymized Interview Lab
+
+- [EKS 01. MongoDB package/version mismatch on EC2 database host](eks01-mongodb-package-version-mismatch.md)
+- [EKS 02. `kubectl` download returned redirect/error payload](eks02-kubectl-download-redirect-payload.md)
+- [EKS 03. Tasky `CrashLoopBackOff` from secret/URI wiring errors](eks03-tasky-crashloopbackoff-secret-uri.md)
+- [EKS 04. MongoDB `Unauthorized` despite network reachability](eks04-mongodb-unauthorized-authsource-role.md)
+- [EKS 05. Database EC2 placed in public subnet during initial build](eks05-db-public-subnet-exposure-control-gap.md)
+

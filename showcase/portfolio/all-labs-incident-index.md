@@ -58,3 +58,17 @@ This index is the canonical map for incident coverage across all completed labs.
 Template references:
 - [`incident-scenarios/README.md`](../../incident-scenarios/README.md)
 - [`showcase/deliverable-template.md`](../deliverable-template.md)
+
+## EKS anonymized interview lab — cloud deployment and security incident chain
+
+EKS-1. **MongoDB package/version mismatch on EC2 database host**  
+Report: [`incidents/eks01-mongodb-package-version-mismatch.md`](incidents/eks01-mongodb-package-version-mismatch.md)
+EKS-2. **`kubectl` download returned redirect/error payload**  
+Report: [`incidents/eks02-kubectl-download-redirect-payload.md`](incidents/eks02-kubectl-download-redirect-payload.md)
+EKS-3. **Tasky `CrashLoopBackOff` from secret/URI wiring errors**  
+Report: [`incidents/eks03-tasky-crashloopbackoff-secret-uri.md`](incidents/eks03-tasky-crashloopbackoff-secret-uri.md)
+EKS-4. **MongoDB `Unauthorized` despite network reachability**  
+Report: [`incidents/eks04-mongodb-unauthorized-authsource-role.md`](incidents/eks04-mongodb-unauthorized-authsource-role.md)
+EKS-5. **Database EC2 placed in public subnet during initial build**  
+Report: [`incidents/eks05-db-public-subnet-exposure-control-gap.md`](incidents/eks05-db-public-subnet-exposure-control-gap.md)
+
