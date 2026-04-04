@@ -2,14 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Platform](https://img.shields.io/badge/platform-Kubernetes-326CE5)](#) [![Focus](https://img.shields.io/badge/focus-Hands--On-success)](#) [![Status](https://img.shields.io/badge/status-public-brightgreen)](#)
 
-```text
-    __ ______ _____    _____                       ______            __  __              
-   / //_( __ ) ___/   /__  /  ___  _________      /_  __/___        / / / /__  _________ 
-  / ,< / __  \__ \______/ /  / _ \/ ___/ __ \______/ / / __ \______/ /_/ / _ \/ ___/ __ \
- / /| / /_/ /__/ /_____/ /__/  __/ /  / /_/ /_____/ / / /_/ /_____/ __  /  __/ /  / /_/ /
-/_/ |_|\____/____/     /____/\___/_/   \____/     /_/  \____/     /_/ /_/\___/_/   \____/ 
-                                                                                         
-```
+![K8S Zero to Hero Banner](sources/IMG_9932.jpeg)
 
 **Learn Kubernetes by doing the work.**
 Built for multiple audiences: hands-on learners, interview candidates, and recruiters/hiring teams.
