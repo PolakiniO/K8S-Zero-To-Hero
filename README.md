@@ -12,6 +12,7 @@
 ```
 
 **Learn Kubernetes by doing the work.**
+Built for multiple audiences: hands-on learners, interview candidates, and recruiters/hiring teams.
 Labs, notes, debugging drills, and interview-focused practice in one repo.
 
 No fluff. No locked platform. Just docs, manifests, incidents, and repetition.
@@ -21,6 +22,7 @@ No fluff. No locked platform. Just docs, manifests, incidents, and repetition.
 ## Why this repo exists
 
 Kubernetes gets easier once you stop treating it like theory.
+This repo is intentionally designed for multiple audiences: learners building fundamentals, candidates preparing for interviews, and recruiters/hiring teams reviewing practical signal.
 
 This repository is built to help you:
 
