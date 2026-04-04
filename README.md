@@ -1,4 +1,4 @@
-![K8S Zero to Hero Banner](sources/IMG_9937.png)
+![K8S Zero to Hero Banner](sources/FEA7B6AC-C1FB-4A56-8E1F-DA1EB99BD6E5.png)
 
 # K8S Zero to Hero
 
