@@ -29,7 +29,10 @@ This repository is built to help you:
 - learn core Kubernetes concepts through guided notes,
 - practice real troubleshooting instead of memorizing commands,
 - prepare for CKA/CKAD-style workflows,
-- build stronger platform, TAM, and security interview instincts.
+- build stronger platform, TAM, and security interview instincts,
+- showcase your Kubernetes labs, incident write-ups, and learning portfolio to recruiters,
+- give recruiters and hiring teams a clear way to review candidate work and practical signal quickly,
+- translate hands-on lab execution into portfolio artifacts that support interview and hiring conversations.
 
 ---
 
