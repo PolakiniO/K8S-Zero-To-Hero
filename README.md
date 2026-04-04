@@ -51,9 +51,10 @@ This repository is built to help you:
 
 ### Candidate quick path
 
-1. [Incident portfolio index](showcase/portfolio/incidents/README.md)
-2. [All labs incident index](showcase/portfolio/all-labs-incident-index.md)
-3. [Deep-dive sample incident (Lab 15)](showcase/portfolio/incidents/lab15-multi-service-chain-outage.md)
+1. [Deliverable template](showcase/deliverable-template.md)
+2. [Scenario write-up template + capture workflow](incident-scenarios/README.md)
+3. [Candidate/recruiter showcase guidance](docs/learning-and-recruiter-showcase-guide.md)
+4. [Incident portfolio index](showcase/portfolio/incidents/README.md)
 
 ### Recruiter quick path
 
